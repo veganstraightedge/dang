@@ -74,12 +74,24 @@ header>"
       Dang::it("<option[selected] California option>").must_equal "<option selected>California</option>"
     end
 
-    it "transforms attributes with whitespace in values" do
+    it "transforms attributes with whitespace in attribute values" do
       Dang::it("<a[href=/][title=Internet Homesite Webpage]  Home a>").must_equal "<a href='/' title='Internet Homesite Webpage'>Home</a>"
     end
 
-    it "escapes text in attributes or values" do
-      Dang::it("<textarea#user_bio[name=user\[bio\]] super awesome dude, right? textarea>").must_equal "<textarea id='user_bio' name='user[bio]'>super awesome dude, right?</textarea>"
+    it "escapes text in attributes" do
+      Dang::it("<textarea#user_bio[name=user[bio\]] super awesome dude, right? textarea>").must_equal "<textarea id='user_bio' name='user[bio]'>super awesome dude, right?</textarea>"
+    end
+
+    it "escapes text in attribute values" do
+      Dang::it("<a[href=/user/123][title=guy man dude[and stuff\]] guy man dude's profile page a>").must_equal "<a href='/user/123' title='guy man dude[and stuff]'>guy man dude's profile page</a>"
+    end
+
+    it "allows quoted attributes" do
+      Dang::it("<html[xmlns=http://www.w3.org/1999/xhtml]['xml:lang'=en][lang=en] ... html>").must_equal "<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>...</html>"
+    end
+
+    it "allows quoted attribute values" do
+      Dang::it("<html[xmlns='http://www.w3.org/1999/xhtml'][xml:lang='en'][lang='en'] ... html>").must_equal "<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>...</html>"
     end
   end
 
