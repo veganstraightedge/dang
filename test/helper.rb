@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'dang'
 
-module Dangx
+module DangIt
   class TestCase < MiniTest::Spec
   end
 end
