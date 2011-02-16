@@ -24,4 +24,8 @@ describe "Syntax" do
   it "should transform DANG self closing tag to self closing HTML tag" do
     Syntax::transform("<img[src=foo.png] />").must_equal "<img src='foo.png' />"
   end
+
+  it "should transform inline nested DANG tags to inline nested HTML tags" do
+    Syntax::transform("<h1 <a[href=/] Home a> h1>").must_equal "<h1><a href='/'>Home</a></h1>"
+  end
 end
