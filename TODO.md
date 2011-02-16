@@ -1,7 +1,7 @@
 # Things to Think About:
 
 ## HAML like shorthand for a hash of attributes
-- <body#id.class.class2{attrs}
+- <body#id.class.class2{ attrs }
 - or
 - <body#id.class.class2<= attrs =>
 
@@ -20,3 +20,8 @@
 - <body#id[class=<= classes =>]
 - or
 - <body#id[class=#{ classes }]
+
+## Misc
+<body[foo=bar]{attrs, attrs}
+<body[foo=#{bar}]{attrs, attrs}
+<body{ hidden }
