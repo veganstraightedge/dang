@@ -1,31 +1,31 @@
 require 'helper'
 
 describe Dang do
-  it "should transform DANG tag to HTML tag" do
+  it "transforms DANG tag to HTML tag" do
     Dang::it("<b BOLD b>").must_equal "<b>BOLD</b>"
   end
 
-  it "should transform DANG tag#id into HTML tag with an id attribute" do
+  it "transforms DANG tag#id into HTML tag with an id attribute" do
     Dang::it("<div#awesome lorem and or ipsum div>").must_equal "<div id='awesome'>lorem and or ipsum</div>"
   end
 
-  it "should transform DANG tag.class into HTML tag with a class" do
+  it "transforms DANG tag.class into HTML tag with a class" do
     Dang::it("<i.pants party i>").must_equal "<i class='pants'>party</i>"
   end
 
-  it "should transform DANG tag#pants.party into HTML tag with an id and a class" do
+  it "transforms DANG tag#id.class into HTML tag with an id and a class" do
     Dang::it("<s#pants.party woo hoo s>").must_equal "<s id='pants' class='party'>woo hoo</s>"
   end
 
-  it "should transform DANG self closing tag to self closing HTML tag" do
+  it "transforms DANG self closing tag to self closing HTML tag" do
     Dang::it("<img[src=foo.png] />").must_equal "<img src='foo.png' />"
   end
 
-  it "should transform inline nested DANG tags to inline nested HTML tags" do
+  it "transforms DANG tags nested inline to inline nested HTML tags" do
     Dang::it("<h1 <a[href=/] Home a> h1>").must_equal "<h1><a href='/'>Home</a></h1>"
   end
 
-  it "should transform multiline nested DANG to multiline nested HTML tags" do
+  it "transforms DANG tags nested multiline to multiline nested HTML tags" do
     dang = "
 <header
   <hgroup
@@ -45,38 +45,50 @@ header>"
     Dang::it(dang).must_equal html.strip
   end
 
+  describe "comments" do
+    it "transforms DANG //comment comments into html comments" do
+      Dang::it(" //comment").must_equal           "<!-- comment -->"
+      Dang::it("<b BOLD b> //comment").must_equal "<b>BOLD</b> <!-- comment -->"
+    end
+
+    it "ignores double slashes with no space before it" do
+      Dang::it("//comment").must_equal "//comment"
+      Dang::it("http://comment.com").must_equal "http://comment.com"
+    end
+  end
+
   describe "attributes" do
-    it "should transform DANG tag[attr=value] into HTML tag with an attribute and value" do
+    it "transforms DANG tag[attr=value] into HTML tag with an attribute and value" do
       Dang::it("<time[datetime=1979-09-18] a while ago >").must_equal "<time datetime='2010-09-18'>a while ago</time>"
     end
 
-    it "should transform data attributes" do
+    it "transforms data attributes" do
       Dang::it("<span[data-lon=-104.6982][data-lat=44.5889] Devil's Tower span>").must_equal "<span data-lat='44.5889' data-lon='-104.6982'>Devil's Tower</span>"
     end
 
-    it "should allow nesting data attributes" do
+    it "transforms nested data attributes" do
       Dang::it("<span[data[lon=-104.6982][lat=44.5889]] Devil's Tower span>").must_equal "<span data-lat='44.5889' data-lon='-104.6982'>Devil's Tower</span>"
     end
 
-    it "should transform boolean attributes" do
+    it "transforms boolean attributes" do
       Dang::it("<option[selected] California option>").must_equal "<option selected>California</option>"
     end
   end
 
   describe "doctype" do
-    it "should transform !!! into doctype html" do
+    it "transforms !!! into html doctype" do
       Dang::it("!!!").must_equal       "<!doctype html>"
       Dang::it("!!! html5").must_equal "<!doctype html>"
     end
 
-    it "should transform HTML4 doctypes" do
+    it "transforms HTML4 doctypes" do
       Dang::it("!!! html4").must_equal              '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">'
       Dang::it("!!! html4 transitional").must_equal '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">'
       Dang::it("!!! html4 strict").must_equal       '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">'
       Dang::it("!!! html4 frameset").must_equal     '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">'
     end
 
-    it "should transform XHTML doctypes" do
+    it "transforms XHTML doctypes" do
       Dang::it("!!! xhtml 1").must_equal              '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
       Dang::it("!!! xhtml 1 transitional").must_equal '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
       Dang::it("!!! xhtml 1 strict").must_equal       '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'
