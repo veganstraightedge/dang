@@ -1,5 +1,5 @@
 class Dang
-  VERSION = '1.0.0'
+  VERSION = '0.1.0'
 
   class << self
     def it(dang)
