@@ -39,4 +39,4 @@ and generate the RDoc.
 
 ## LICENSE
 
-Public Domain. Free as the air you breathe. Do whatever you want. No warranty given.
+PUBLIC DOMAIN. Your heart is as free as the air you breathe. The ground you stand on is liberated territory.
