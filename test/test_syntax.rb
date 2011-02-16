@@ -20,4 +20,8 @@ describe "Syntax" do
   it "should transform DANG tag[attr=value] into HTML tag with an attribute and value" do
     Syntax::transform("<time[datetime=1979-09-18] a while ago >").must_equal "<time datetime='2010-09-18'>a while ago</time>"
   end
+
+  it "should transform DANG self closing tag to self closing HTML tag" do
+    Syntax::transform("<img[src=foo.png] />").must_equal "<img src='foo.png' />"
+  end
 end
