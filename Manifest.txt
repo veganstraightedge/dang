@@ -1,0 +1,8 @@
+.autotest
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+bin/dang
+lib/dang.rb
+test/test_dang.rb
