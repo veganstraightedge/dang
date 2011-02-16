@@ -17,7 +17,7 @@ describe "selectors" do
 
   describe "utility" do
     it "should merge shorthand and longhand classes" do
-      Dang::it("<html#foo.bar[class=snap crackle pop mitch]".must_equal "<html id='foo' class='bar snap crackle pop mitch'>"
+      Dang::it("<html#foo.bar[class=snap crackle pop mitch]").must_equal "<html id='foo' class='bar snap crackle pop mitch'>"
     end
   end
 end
