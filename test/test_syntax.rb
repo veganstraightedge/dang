@@ -16,4 +16,8 @@ describe "Syntax" do
   it "should transform DANG tag#pants.party into HTML tag with an id and a class" do
     Syntax::transform("<s#pants.party woo hoo s>").must_equal "<s id='pants' class='party'>woo hoo</s>"
   end
+
+  it "should transform DANG tag[attr=value] into HTML tag with an attribute and value" do
+    Syntax::transform("<time[datetime=1979-09-18] a while ago >").must_equal "<time datetime='2010-09-18'>a while ago</time>"
+  end
 end
