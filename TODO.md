@@ -1,5 +1,3 @@
-# Things to Think About
-
 ## HAML like shorthand for a hash of attributes
 Ideas
 
@@ -38,7 +36,4 @@ or
 ## Merge Short/Long Hand Classes
     <html#foo.bar[class=snap crackle pop mitch]
     <html id="foo" class="bar snap crackle pop mitch">
-
-## Consider Implicit Divs
-    <#id Is this lame? I kinda think it is. Think on it more. #>
 
