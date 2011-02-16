@@ -42,7 +42,7 @@ header>"
   </hgroup>
 </header>"
 
-    Dang::it(dang).must_equal html.strip
+    Dang::it(dang).must_equal html
   end
 
   describe "comments" do
@@ -98,6 +98,70 @@ header>"
       Dang::it("!!! xhtml 1.2 mobile").must_equal     '<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.2//EN" "http://www.openmobilealliance.org/tech/DTD/xhtml-mobile12.dtd">'
       Dang::it("!!! xhtml rdfa").must_equal           '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">'
       Dang::it("!!! xhtml 5").must_equal              '<!DOCTYPE html>'
+    end
+  end
+
+  describe "script" do
+    it "treat script tag special" do
+      dang = "
+<script
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-193482-20']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+script>
+"
+
+      html = "
+<script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-193482-20']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+<script>
+"
+
+      Dang::it(dang).must_equal html
+    end
+  end
+
+  describe "style" do
+    it "treat style tags special" do
+      dang = "
+<style
+  body {
+    background: red;
+  }
+
+  p:after {
+    content: '}';
+  }
+style>
+"
+
+      html = "
+<style>
+  body {
+    background: red;
+  }
+
+  p:after {
+    content: '}';
+  }
+<style>
+"
+
+      Dang::it(dang).must_equal html
     end
   end
 end
