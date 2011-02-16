@@ -76,6 +76,9 @@ header>"
   end
 
   describe "doctype" do
+    # based largely on HAML's doctype with a minor variation
+    # http://haml-lang.com/docs/yardoc/file.HAML_REFERENCE.html#doctype_
+
     it "transforms !!! into html doctype" do
       Dang::it("!!!").must_equal       "<!doctype html>"
       Dang::it("!!! html5").must_equal "<!doctype html>"
@@ -98,6 +101,10 @@ header>"
       Dang::it("!!! xhtml 1.2 mobile").must_equal     '<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.2//EN" "http://www.openmobilealliance.org/tech/DTD/xhtml-mobile12.dtd">'
       Dang::it("!!! xhtml rdfa").must_equal           '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">'
       Dang::it("!!! xhtml 5").must_equal              '<!DOCTYPE html>'
+    end
+
+    it "transforms xml utf8 encoding" do
+      Dang::it("!!! xml iso-8859-1").must_equal "<?xml version='1.0' encoding='iso-8859-1' ?>"
     end
   end
 
@@ -163,5 +170,10 @@ style>
 
       Dang::it(dang).must_equal html
     end
+  end
+
+  describe "well formedness" do
+    it "should throw a warning when a closer is missing"
+    it "should throw a warning when a closer is mismatched"
   end
 end
