@@ -17,10 +17,6 @@ describe Dang do
     Dang::it("<s#pants.party woo hoo s>").must_equal "<s id='pants' class='party'>woo hoo</s>"
   end
 
-  it "should transform DANG tag[attr=value] into HTML tag with an attribute and value" do
-    Dang::it("<time[datetime=1979-09-18] a while ago >").must_equal "<time datetime='2010-09-18'>a while ago</time>"
-  end
-
   it "should transform DANG self closing tag to self closing HTML tag" do
     Dang::it("<img[src=foo.png] />").must_equal "<img src='foo.png' />"
   end
@@ -47,6 +43,24 @@ header>"
 </header>"
 
     Dang::it(dang).must_equal html.strip
+  end
+
+  describe "attributes" do
+    it "should transform DANG tag[attr=value] into HTML tag with an attribute and value" do
+      Dang::it("<time[datetime=1979-09-18] a while ago >").must_equal "<time datetime='2010-09-18'>a while ago</time>"
+    end
+
+    it "should transform data attributes" do
+      Dang::it("<span[data-lon=-104.6982][data-lat=44.5889] Devil's Tower span>").must_equal "<span data-lat='44.5889' data-lon='-104.6982'>Devil's Tower</span>"
+    end
+
+    it "should allow nesting data attributes" do
+      Dang::it("<span[data[lon=-104.6982][lat=44.5889]] Devil's Tower span>").must_equal "<span data-lat='44.5889' data-lon='-104.6982'>Devil's Tower</span>"
+    end
+
+    it "should transform boolean attributes" do
+      Dang::it("<option[selected] California option>").must_equal "<option selected>California</option>"
+    end
   end
 
   describe "doctype" do
