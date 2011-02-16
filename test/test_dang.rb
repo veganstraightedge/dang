@@ -73,6 +73,14 @@ header>"
     it "transforms boolean attributes" do
       Dang::it("<option[selected] California option>").must_equal "<option selected>California</option>"
     end
+
+    it "transforms attributes with whitespace in values" do
+      Dang::it("<a[href=/][title=Internet Homesite Webpage]  Home a>").must_equal "<a href='/' title='Internet Homesite Webpage'>Home</a>"
+    end
+
+    it "escapes text in attributes or values" do
+      Dang::it("<textarea#user_bio[name=user\[bio\]] super awesome dude, right? textarea>").must_equal "<textarea id='user_bio' name='user[bio]'>super awesome dude, right?</textarea>"
+    end
   end
 
   describe "doctype" do
