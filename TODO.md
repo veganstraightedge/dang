@@ -16,4 +16,7 @@
 - <body#id.<= classes =>
 - or
 - <body#id.#{ classes }
-- I dunno
+- I dunno, but maybe only like
+- <body#id[class=<= classes =>]
+- or
+- <body#id[class=#{ classes }]
