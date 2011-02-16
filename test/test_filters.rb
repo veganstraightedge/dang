@@ -10,6 +10,8 @@ require "helper"
 #   	* items
 #   markdown:>
 
+# TODO think about this syntax
+
 describe "filters" do
   it "deals with <:markdown #heading markdown:> filters"
 end

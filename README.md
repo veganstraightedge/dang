@@ -8,10 +8,12 @@ Another Dang Templating Language
 
 ## FEATURES/PROBLEMS
 
-* CSS selectors for HTML tag
+* CSS selectors for HTML tags
 * Not as noisy syntax than ERB
-* Not quite as elegant as HAML
+* Not quite as elegant as [HAML](http://haml-lang.com)
+* No %s in the codez
 * More closers than HAML
+* Lots is based on / inspired by [HAML](http://haml-lang.com/docs/yardoc/file.HAML_REFERENCE.html)
 
 ## SYNOPSIS
 
