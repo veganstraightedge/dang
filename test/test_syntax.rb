@@ -28,4 +28,24 @@ describe "Syntax" do
   it "should transform inline nested DANG tags to inline nested HTML tags" do
     Syntax::transform("<h1 <a[href=/] Home a> h1>").must_equal "<h1><a href='/'>Home</a></h1>"
   end
+
+  it "should transform multiline nested DANG to multiline nested HTML tags" do
+    dang = "
+<header
+  <hgroup
+    <h1 Dang Lang h1>
+    <h2 It's the angle of the dangle h2>
+  </hgroup
+header>"
+
+    html = "
+<header>
+  <hgroup>
+    <h1>Dang Lang</h1>
+    <h2>It's the angle of the dangle</h2>
+  </hgroup>
+</header>"
+
+    Syntax::transform(dang.strip).must_equal html.strip
+  end
 end
