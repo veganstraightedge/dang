@@ -13,5 +13,9 @@ require "helper"
 # TODO think about this syntax
 
 describe "filters" do
-  it "deals with <:markdown #heading markdown:> filters"
+  describe "markdown" do
+    it "farms out to markdown processing with markdown filter" do
+      Dang::it("<:markdown # heading markdown:>").must_equal "<h1>heading</h1>"
+    end
+  end
 end
