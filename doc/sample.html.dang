@@ -1,3 +1,5 @@
+
+
 !!!
 <html[dir=ltr][lang=en-US]
 
@@ -20,7 +22,7 @@
     }
 
     p:after {
-      content: "}";
+      content: "style>";
     }
   style>
 head>
@@ -72,7 +74,7 @@ head>
               <th <label.long_url[for=long_url_status_1191]   Long URL  label> th>
             tr>
             <tr
-              <td <input#short_url_status_1191.short_url[name=name_url][type=url][value="http://sbb.me/s4AA4] /> td>
+              <td <input#short_url_status_1191.short_url[name=name_url][type=url][value=http://sbb.me/s4AA4] /> td>
               <td <input#long_url_status_1191.long_url[name=long_url][type=url][value=http://iamshane.com/statuses/2011/2/5/4] /> td>
             tr>
           table> //.urls
