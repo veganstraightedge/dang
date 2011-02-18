@@ -1,5 +1,3 @@
-
-
 !!!
 <html[dir=ltr][lang=en-US]
 
@@ -217,7 +215,6 @@ head>
       <a[href=http://wordpress.com] free a> and <a[href=http://tumblr.com] easy a>).
     p>
   footer> //footer
-
 
   <script
     var _gaq = _gaq || [];
