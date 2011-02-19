@@ -1,0 +1,2 @@
+class Doctype
+end
