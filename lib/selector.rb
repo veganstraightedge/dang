@@ -1,0 +1,2 @@
+class Selector
+end
