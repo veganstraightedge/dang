@@ -1,6 +1,7 @@
-require 'helper'
+require "helper"
+require "style"
 
-describe "style" do
+describe Style do
   it "treat style tags special" do
     dang = "
 <style
