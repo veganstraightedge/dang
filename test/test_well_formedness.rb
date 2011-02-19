@@ -1,8 +1,9 @@
 require 'helper'
+require "well_formedness"
 
 # TODO think about these rules
 
-describe "well formedness" do
+describe WellFormedness do
   it "should throw a warning when a closer is missing" do
     Dang::it("<div <p lorem div>").must_equal "<div><p>lorem</div>"
     Dang::it("<div <p lorem div>").errors.must_equal "Missing Closer: </p>"
