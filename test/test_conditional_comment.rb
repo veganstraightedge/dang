@@ -1,4 +1,5 @@
 require 'helper'
+require 'conditional_comment'
 
 # HAML like conditional comments, but with // instead of /, and with closers
 # //[if IE]
@@ -7,7 +8,7 @@ require 'helper'
 # <!--[if IE]>
 # <![endif]-->
 
-describe "conditional comments" do
+describe ConditionalComment do
   it "transforms IE conditional comments" do
     Dang::it("//[if IE]\n...\n//[end]").must_equal "<!--[if IE]>\n...\n<![endif]-->"
   end
