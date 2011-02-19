@@ -1,5 +1,5 @@
 require "helper"
-require "tags"
+require "tag"
 
 describe Tag do
   it "transforms DANG tag to HTML tag" do
