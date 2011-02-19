@@ -1,6 +1,7 @@
 require "helper"
+require "hash_attribute"
 
-describe "hash attributes" do
+describe HashAttribute do
   it "should have a shorthand for a hash as attributes" do
     # HAML like shorthand for a hash of attributes
     # Ideas
