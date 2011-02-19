@@ -1,0 +1,2 @@
+class Markdown < Filter  
+end
