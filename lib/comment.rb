@@ -1,3 +1,2 @@
 class Comment
-  
 end
