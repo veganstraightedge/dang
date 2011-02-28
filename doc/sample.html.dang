@@ -64,7 +64,7 @@ head>
                 06:38:40
               a>
             time>
-          h1> //.vcard
+          h1> <! .vcard !>
 
           <table.urls
             <tr
@@ -75,15 +75,15 @@ head>
               <td <input#short_url_status_1191.short_url[name=name_url][type=url][value=http://sbb.me/s4AA4] /> td>
               <td <input#long_url_status_1191.long_url[name=long_url][type=url][value=http://iamshane.com/statuses/2011/2/5/4] /> td>
             tr>
-          table> //.urls
+          table> <! .urls !>
 
           <h3.redistribution
             Also published at
             <a[href=http://twitter.com/veganstraightedge/statuses/34138891636178944][rel=me] http://twitter.com/veganstraightedge/statuses/34138891636178944 a>
-          h3> //.redistribution
-        footer> //footer
-      article> //article
-    li> //li
+          h3> <! .redistribution !>
+        footer> <! footer !>
+      article> <! article !>
+    li> <! li !>
 
     <li
       <article#status_800.hentry.status
@@ -109,7 +109,7 @@ head>
                 04:18:28
               a>
             time>
-          h1> //.vcard
+          h1> <! .vcard !>
 
           <table.urls
             <tr
@@ -120,17 +120,17 @@ head>
               <td <input#short_url_status_800.short_url[name=name_url][type=url][value="http://sbb.me/s4AA3] /> td>
               <td <input#long_url_status_800.long_url[name=long_url][type=url][value="http://iamshane.com/statuses/2011/2/5/3] /> td>
             tr>
-          table> //.urls
+          table> <! .urls !>
 
           <h3.redistribution
             Also published at
             <a[href=http://twitter.com/veganstraightedge/statuses/34103607427076098][rel=me] http://twitter.com/veganstraightedge/statuses/34103607427076098 a>
-          h3> //.redistribution
-        footer> //footer
-      article> //article
-    li> //li
+          h3> <! .redistribution !>
+        footer> <! footer !>
+      article> <! article !>
+    li> <! li !>
 
-  ol> //ol.hfeed
+  ol> <! ol.hfeed !>
 
   <div.pagination
     <span.previous_page.disabled &#8592; Previous span>
@@ -147,7 +147,7 @@ head>
     <a[href=/page/415] 415 a>
     <a[href=/page/416] 416 a>
     <a.next_page[href=/page/2][rel=next] Next &#8594; a>
-  div> //.pagination
+  div> <! .pagination !>
 
   <footer#bottom.site
     <h1 A Bit More About Me&hellip; /h1>
@@ -214,7 +214,7 @@ head>
       or your own blog (they&rsquo;re
       <a[href=http://wordpress.com] free a> and <a[href=http://tumblr.com] easy a>).
     p>
-  footer> //footer
+  footer> <! footer !>
 
   <script
     var _gaq = _gaq || [];
@@ -228,5 +228,5 @@ head>
       })();
   script>
 
-  body> //body
-html> //html
+  body> <! body !>
+html> <! html !>
