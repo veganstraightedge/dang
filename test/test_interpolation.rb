@@ -1,7 +1,7 @@
 require "helper"
 require "interpolation"
 
-# TODO think about this syntax
+# TODO experimental
 
 describe Interpolation do
   it "should allow ruby interpolation in ids"

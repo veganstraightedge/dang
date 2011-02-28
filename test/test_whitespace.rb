@@ -2,7 +2,8 @@ require "helper"
 
 # something like HAML's aligator operator
 # http://haml-lang.com/docs/yardoc/file.HAML_REFERENCE.html#whitespace_removal__and_
-# TODO think about this syntax
+
+# TODO experimental
 
 describe "whitespace" do
   describe "ignoring" do

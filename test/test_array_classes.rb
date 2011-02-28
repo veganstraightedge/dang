@@ -1,5 +1,7 @@
 require "helper"
 
+# TODO experimental
+
 describe "array classes" do
   it "joins an array of items into space separate attribute values" do
     classes = %w(snap crackle pop)

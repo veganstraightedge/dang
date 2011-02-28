@@ -1,7 +1,7 @@
 require 'helper'
 require "well_formedness"
 
-# TODO think about these rules
+# TODO experimental
 
 describe WellFormedness do
   it "should throw a warning when a closer is missing" do

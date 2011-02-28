@@ -12,7 +12,7 @@ require "markdown"
 #   	* items
 #   markdown:>
 
-# TODO think about this syntax
+# TODO experimental
 
 describe Filter do
   describe Markdown do

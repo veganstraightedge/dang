@@ -12,6 +12,7 @@ describe HashAttribute do
     # <body#id.class.class2{ attrs }
     # <body#id.class.class2<= attrs =>
 
-    # TODO think about this syntax    
+    # TODO experimental
+
   end
 end
