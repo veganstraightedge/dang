@@ -11,3 +11,7 @@ Hoe.spec "dang" do
   self.history_file     = "History.md"
   self.readme_file      = "README.md"
 end
+
+task :parser do
+  sh "ruby -I../kpeg/lib ../kpeg/bin/kpeg -o lib/parser.rb -f -n Dang::Parser -s lib/parser.kpeg"
+end
