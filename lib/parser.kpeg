@@ -2,7 +2,8 @@
 %% {
   def initialize(str, debug=false)
     setup_parser(str, debug)
-    @doctype = "html"
+    @doctype = nil
+    @output = ""
   end
 
   DOC_TYPES = {
@@ -27,6 +28,8 @@
   }
 
   def html_doctype
+    return "" unless @doctype
+
     unless DOC_TYPES.key? @doctype
       warn "doctype '#{@doctype}' not understood, using 'html'"
       @doctype = "html"
@@ -36,16 +39,48 @@
   end
 
   def output
-    html_doctype
+    str = html_doctype
+    str << @output
   end
 }
 
   space = " " | "\t"
-      - = space*
+     bs = " " | "\t" | "\n"
+      - = bs+
     eol = "\n"
     eof = !.
    rest = < (!eol .)* > (eol | eof) { text }
 
-doctype = "!!!" - rest:r { @doctype = r.empty? ? "html" : r }
+doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
 
-   root = doctype
+   name = < /[a-zA-Z0-9_-]+/ > { text }
+  start = "<" name:n { n }
+    pts = space+ { "" }
+        | < eol bs* > { text }
+
+    end = name:n ">" { n }
+  slash = - "/>"
+
+ marker = start | (- end)
+  chunk = < (!marker .)* > { text }
+
+   part = tag | chunk
+   body = part:p body:b { "#{p}#{b}" }
+        | part
+
+    key = name
+    val = < (!"]" .)* > { text }
+
+   attr = "[" key:k "=" val:v "]" { "#{k}='#{v}'" }
+  attrs = attr:a attrs:l { "#{a} #{l}" }
+        | attr
+
+    tag = start:l slash { "<#{l} />" }
+        | start:l attrs:a slash { "<#{l} #{a} />" }
+        | start:l attrs:a pts body:b pts:es end:r { "<#{l} #{a}>#{b}#{es}</#{r}>" }
+        | start:l pts:s body:b pts:es end:r { "<#{l}>#{s}#{b}#{es}</#{r}>" }
+
+   elem = doctype
+        | bs* tag:t { @output << t }
+
+  root = elem eof

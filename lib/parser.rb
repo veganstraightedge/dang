@@ -292,7 +292,8 @@ class Dang::Parser
 
   def initialize(str, debug=false)
     setup_parser(str, debug)
-    @doctype = "html"
+    @doctype = nil
+    @output = ""
   end
 
   DOC_TYPES = {
@@ -317,6 +318,8 @@ class Dang::Parser
   }
 
   def html_doctype
+    return "" unless @doctype
+
     unless DOC_TYPES.key? @doctype
       warn "doctype '#{@doctype}' not understood, using 'html'"
       @doctype = "html"
@@ -326,7 +329,8 @@ class Dang::Parser
   end
 
   def output
-    html_doctype
+    str = html_doctype
+    str << @output
   end
 
 
@@ -348,13 +352,39 @@ class Dang::Parser
     return _tmp
   end
 
-  # - = space*
+  # bs = (" " | "\t" | "\n")
+  def _bs
+
+    _save = self.pos
+    while true # choice
+    _tmp = match_string(" ")
+    break if _tmp
+    self.pos = _save
+    _tmp = match_string("\t")
+    break if _tmp
+    self.pos = _save
+    _tmp = match_string("\n")
+    break if _tmp
+    self.pos = _save
+    break
+    end # end choice
+
+    return _tmp
+  end
+
+  # - = bs+
   def __hyphen_
-    while true
-    _tmp = apply('space', :_space)
-    break unless _tmp
+    _save = self.pos
+    _tmp = apply('bs', :_bs)
+    if _tmp
+      while true
+        _tmp = apply('bs', :_bs)
+        break unless _tmp
+      end
+      _tmp = true
+    else
+      self.pos = _save
     end
-    _tmp = true
     return _tmp
   end
 
@@ -435,7 +465,7 @@ class Dang::Parser
     return _tmp
   end
 
-  # doctype = "!!!" - rest:r { @doctype = r.empty? ? "html" : r }
+  # doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
   def _doctype
 
     _save = self.pos
@@ -445,7 +475,11 @@ class Dang::Parser
       self.pos = _save
       break
     end
-    _tmp = apply('-', :__hyphen_)
+    while true
+    _tmp = apply('space', :_space)
+    break unless _tmp
+    end
+    _tmp = true
     unless _tmp
       self.pos = _save
       break
@@ -467,9 +501,666 @@ class Dang::Parser
     return _tmp
   end
 
-  # root = doctype
-  def _root
+  # name = < /[a-zA-Z0-9_-]+/ > { text }
+  def _name
+
+    _save = self.pos
+    while true # sequence
+    _text_start = self.pos
+    _tmp = scan(/\A(?-mix:[a-zA-Z0-9_-]+)/)
+    if _tmp
+      set_text(_text_start)
+    end
+    unless _tmp
+      self.pos = _save
+      break
+    end
+    @result = begin;  text ; end
+    _tmp = true
+    unless _tmp
+      self.pos = _save
+    end
+    break
+    end # end sequence
+
+    return _tmp
+  end
+
+  # start = "<" name:n { n }
+  def _start
+
+    _save = self.pos
+    while true # sequence
+    _tmp = match_string("<")
+    unless _tmp
+      self.pos = _save
+      break
+    end
+    _tmp = apply('name', :_name)
+    n = @result
+    unless _tmp
+      self.pos = _save
+      break
+    end
+    @result = begin;  n ; end
+    _tmp = true
+    unless _tmp
+      self.pos = _save
+    end
+    break
+    end # end sequence
+
+    return _tmp
+  end
+
+  # pts = (space+ { "" } | < eol bs* > { text })
+  def _pts
+
+    _save = self.pos
+    while true # choice
+
+    _save1 = self.pos
+    while true # sequence
+    _save2 = self.pos
+    _tmp = apply('space', :_space)
+    if _tmp
+      while true
+        _tmp = apply('space', :_space)
+        break unless _tmp
+      end
+      _tmp = true
+    else
+      self.pos = _save2
+    end
+    unless _tmp
+      self.pos = _save1
+      break
+    end
+    @result = begin;  "" ; end
+    _tmp = true
+    unless _tmp
+      self.pos = _save1
+    end
+    break
+    end # end sequence
+
+    break if _tmp
+    self.pos = _save
+
+    _save3 = self.pos
+    while true # sequence
+    _text_start = self.pos
+
+    _save4 = self.pos
+    while true # sequence
+    _tmp = apply('eol', :_eol)
+    unless _tmp
+      self.pos = _save4
+      break
+    end
+    while true
+    _tmp = apply('bs', :_bs)
+    break unless _tmp
+    end
+    _tmp = true
+    unless _tmp
+      self.pos = _save4
+    end
+    break
+    end # end sequence
+
+    if _tmp
+      set_text(_text_start)
+    end
+    unless _tmp
+      self.pos = _save3
+      break
+    end
+    @result = begin;  text ; end
+    _tmp = true
+    unless _tmp
+      self.pos = _save3
+    end
+    break
+    end # end sequence
+
+    break if _tmp
+    self.pos = _save
+    break
+    end # end choice
+
+    return _tmp
+  end
+
+  # end = name:n ">" { n }
+  def _end
+
+    _save = self.pos
+    while true # sequence
+    _tmp = apply('name', :_name)
+    n = @result
+    unless _tmp
+      self.pos = _save
+      break
+    end
+    _tmp = match_string(">")
+    unless _tmp
+      self.pos = _save
+      break
+    end
+    @result = begin;  n ; end
+    _tmp = true
+    unless _tmp
+      self.pos = _save
+    end
+    break
+    end # end sequence
+
+    return _tmp
+  end
+
+  # slash = - "/>"
+  def _slash
+
+    _save = self.pos
+    while true # sequence
+    _tmp = apply('-', :__hyphen_)
+    unless _tmp
+      self.pos = _save
+      break
+    end
+    _tmp = match_string("/>")
+    unless _tmp
+      self.pos = _save
+    end
+    break
+    end # end sequence
+
+    return _tmp
+  end
+
+  # marker = (start | - end)
+  def _marker
+
+    _save = self.pos
+    while true # choice
+    _tmp = apply('start', :_start)
+    break if _tmp
+    self.pos = _save
+
+    _save1 = self.pos
+    while true # sequence
+    _tmp = apply('-', :__hyphen_)
+    unless _tmp
+      self.pos = _save1
+      break
+    end
+    _tmp = apply('end', :_end)
+    unless _tmp
+      self.pos = _save1
+    end
+    break
+    end # end sequence
+
+    break if _tmp
+    self.pos = _save
+    break
+    end # end choice
+
+    return _tmp
+  end
+
+  # chunk = < (!marker .)* > { text }
+  def _chunk
+
+    _save = self.pos
+    while true # sequence
+    _text_start = self.pos
+    while true
+
+    _save2 = self.pos
+    while true # sequence
+    _save3 = self.pos
+    _tmp = apply('marker', :_marker)
+    self.pos = _save3
+    _tmp = _tmp ? nil : true
+    unless _tmp
+      self.pos = _save2
+      break
+    end
+    _tmp = get_byte
+    unless _tmp
+      self.pos = _save2
+    end
+    break
+    end # end sequence
+
+    break unless _tmp
+    end
+    _tmp = true
+    if _tmp
+      set_text(_text_start)
+    end
+    unless _tmp
+      self.pos = _save
+      break
+    end
+    @result = begin;  text ; end
+    _tmp = true
+    unless _tmp
+      self.pos = _save
+    end
+    break
+    end # end sequence
+
+    return _tmp
+  end
+
+  # part = (tag | chunk)
+  def _part
+
+    _save = self.pos
+    while true # choice
+    _tmp = apply('tag', :_tag)
+    break if _tmp
+    self.pos = _save
+    _tmp = apply('chunk', :_chunk)
+    break if _tmp
+    self.pos = _save
+    break
+    end # end choice
+
+    return _tmp
+  end
+
+  # body = (part:p body:b { "#{p}#{b}" } | part)
+  def _body
+
+    _save = self.pos
+    while true # choice
+
+    _save1 = self.pos
+    while true # sequence
+    _tmp = apply('part', :_part)
+    p = @result
+    unless _tmp
+      self.pos = _save1
+      break
+    end
+    _tmp = apply('body', :_body)
+    b = @result
+    unless _tmp
+      self.pos = _save1
+      break
+    end
+    @result = begin;  "#{p}#{b}" ; end
+    _tmp = true
+    unless _tmp
+      self.pos = _save1
+    end
+    break
+    end # end sequence
+
+    break if _tmp
+    self.pos = _save
+    _tmp = apply('part', :_part)
+    break if _tmp
+    self.pos = _save
+    break
+    end # end choice
+
+    return _tmp
+  end
+
+  # key = name
+  def _key
+    _tmp = apply('name', :_name)
+    return _tmp
+  end
+
+  # val = < (!"]" .)* > { text }
+  def _val
+
+    _save = self.pos
+    while true # sequence
+    _text_start = self.pos
+    while true
+
+    _save2 = self.pos
+    while true # sequence
+    _save3 = self.pos
+    _tmp = match_string("]")
+    self.pos = _save3
+    _tmp = _tmp ? nil : true
+    unless _tmp
+      self.pos = _save2
+      break
+    end
+    _tmp = get_byte
+    unless _tmp
+      self.pos = _save2
+    end
+    break
+    end # end sequence
+
+    break unless _tmp
+    end
+    _tmp = true
+    if _tmp
+      set_text(_text_start)
+    end
+    unless _tmp
+      self.pos = _save
+      break
+    end
+    @result = begin;  text ; end
+    _tmp = true
+    unless _tmp
+      self.pos = _save
+    end
+    break
+    end # end sequence
+
+    return _tmp
+  end
+
+  # attr = "[" key:k "=" val:v "]" { "#{k}='#{v}'" }
+  def _attr
+
+    _save = self.pos
+    while true # sequence
+    _tmp = match_string("[")
+    unless _tmp
+      self.pos = _save
+      break
+    end
+    _tmp = apply('key', :_key)
+    k = @result
+    unless _tmp
+      self.pos = _save
+      break
+    end
+    _tmp = match_string("=")
+    unless _tmp
+      self.pos = _save
+      break
+    end
+    _tmp = apply('val', :_val)
+    v = @result
+    unless _tmp
+      self.pos = _save
+      break
+    end
+    _tmp = match_string("]")
+    unless _tmp
+      self.pos = _save
+      break
+    end
+    @result = begin;  "#{k}='#{v}'" ; end
+    _tmp = true
+    unless _tmp
+      self.pos = _save
+    end
+    break
+    end # end sequence
+
+    return _tmp
+  end
+
+  # attrs = (attr:a attrs:l { "#{a} #{l}" } | attr)
+  def _attrs
+
+    _save = self.pos
+    while true # choice
+
+    _save1 = self.pos
+    while true # sequence
+    _tmp = apply('attr', :_attr)
+    a = @result
+    unless _tmp
+      self.pos = _save1
+      break
+    end
+    _tmp = apply('attrs', :_attrs)
+    l = @result
+    unless _tmp
+      self.pos = _save1
+      break
+    end
+    @result = begin;  "#{a} #{l}" ; end
+    _tmp = true
+    unless _tmp
+      self.pos = _save1
+    end
+    break
+    end # end sequence
+
+    break if _tmp
+    self.pos = _save
+    _tmp = apply('attr', :_attr)
+    break if _tmp
+    self.pos = _save
+    break
+    end # end choice
+
+    return _tmp
+  end
+
+  # tag = (start:l slash { "<#{l} />" } | start:l attrs:a slash { "<#{l} #{a} />" } | start:l attrs:a pts body:b pts:es end:r { "<#{l} #{a}>#{b}#{es}</#{r}>" } | start:l pts:s body:b pts:es end:r { "<#{l}>#{s}#{b}#{es}</#{r}>" })
+  def _tag
+
+    _save = self.pos
+    while true # choice
+
+    _save1 = self.pos
+    while true # sequence
+    _tmp = apply('start', :_start)
+    l = @result
+    unless _tmp
+      self.pos = _save1
+      break
+    end
+    _tmp = apply('slash', :_slash)
+    unless _tmp
+      self.pos = _save1
+      break
+    end
+    @result = begin;  "<#{l} />" ; end
+    _tmp = true
+    unless _tmp
+      self.pos = _save1
+    end
+    break
+    end # end sequence
+
+    break if _tmp
+    self.pos = _save
+
+    _save2 = self.pos
+    while true # sequence
+    _tmp = apply('start', :_start)
+    l = @result
+    unless _tmp
+      self.pos = _save2
+      break
+    end
+    _tmp = apply('attrs', :_attrs)
+    a = @result
+    unless _tmp
+      self.pos = _save2
+      break
+    end
+    _tmp = apply('slash', :_slash)
+    unless _tmp
+      self.pos = _save2
+      break
+    end
+    @result = begin;  "<#{l} #{a} />" ; end
+    _tmp = true
+    unless _tmp
+      self.pos = _save2
+    end
+    break
+    end # end sequence
+
+    break if _tmp
+    self.pos = _save
+
+    _save3 = self.pos
+    while true # sequence
+    _tmp = apply('start', :_start)
+    l = @result
+    unless _tmp
+      self.pos = _save3
+      break
+    end
+    _tmp = apply('attrs', :_attrs)
+    a = @result
+    unless _tmp
+      self.pos = _save3
+      break
+    end
+    _tmp = apply('pts', :_pts)
+    unless _tmp
+      self.pos = _save3
+      break
+    end
+    _tmp = apply('body', :_body)
+    b = @result
+    unless _tmp
+      self.pos = _save3
+      break
+    end
+    _tmp = apply('pts', :_pts)
+    es = @result
+    unless _tmp
+      self.pos = _save3
+      break
+    end
+    _tmp = apply('end', :_end)
+    r = @result
+    unless _tmp
+      self.pos = _save3
+      break
+    end
+    @result = begin;  "<#{l} #{a}>#{b}#{es}</#{r}>" ; end
+    _tmp = true
+    unless _tmp
+      self.pos = _save3
+    end
+    break
+    end # end sequence
+
+    break if _tmp
+    self.pos = _save
+
+    _save4 = self.pos
+    while true # sequence
+    _tmp = apply('start', :_start)
+    l = @result
+    unless _tmp
+      self.pos = _save4
+      break
+    end
+    _tmp = apply('pts', :_pts)
+    s = @result
+    unless _tmp
+      self.pos = _save4
+      break
+    end
+    _tmp = apply('body', :_body)
+    b = @result
+    unless _tmp
+      self.pos = _save4
+      break
+    end
+    _tmp = apply('pts', :_pts)
+    es = @result
+    unless _tmp
+      self.pos = _save4
+      break
+    end
+    _tmp = apply('end', :_end)
+    r = @result
+    unless _tmp
+      self.pos = _save4
+      break
+    end
+    @result = begin;  "<#{l}>#{s}#{b}#{es}</#{r}>" ; end
+    _tmp = true
+    unless _tmp
+      self.pos = _save4
+    end
+    break
+    end # end sequence
+
+    break if _tmp
+    self.pos = _save
+    break
+    end # end choice
+
+    return _tmp
+  end
+
+  # elem = (doctype | bs* tag:t { @output << t })
+  def _elem
+
+    _save = self.pos
+    while true # choice
     _tmp = apply('doctype', :_doctype)
+    break if _tmp
+    self.pos = _save
+
+    _save1 = self.pos
+    while true # sequence
+    while true
+    _tmp = apply('bs', :_bs)
+    break unless _tmp
+    end
+    _tmp = true
+    unless _tmp
+      self.pos = _save1
+      break
+    end
+    _tmp = apply('tag', :_tag)
+    t = @result
+    unless _tmp
+      self.pos = _save1
+      break
+    end
+    @result = begin;  @output << t ; end
+    _tmp = true
+    unless _tmp
+      self.pos = _save1
+    end
+    break
+    end # end sequence
+
+    break if _tmp
+    self.pos = _save
+    break
+    end # end choice
+
+    return _tmp
+  end
+
+  # root = elem eof
+  def _root
+
+    _save = self.pos
+    while true # sequence
+    _tmp = apply('elem', :_elem)
+    unless _tmp
+      self.pos = _save
+      break
+    end
+    _tmp = apply('eof', :_eof)
+    unless _tmp
+      self.pos = _save
+    end
+    break
+    end # end sequence
+
     return _tmp
   end
 end
