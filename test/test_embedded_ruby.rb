@@ -1,7 +1,6 @@
 require "helper"
-require "embedded_ruby"
 
-describe EmbeddedRuby do
+describe "embedded ruby" do
   it "farms out to Ruby for and does not return any output" do
     Dang::it("<time><- Time.now -></time>").must_equal "<time></time>"
   end

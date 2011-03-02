@@ -1,7 +1,6 @@
-require 'helper'
-require 'script'
+require "helper"
 
-describe Script do
+describe "script tags" do
   it "treat script tag special" do
     dang = "
 <script

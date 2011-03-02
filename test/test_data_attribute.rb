@@ -1,7 +1,6 @@
-require 'helper'
-require 'data_attribute'
+require "helper"
 
-describe DataAttribute do
+describe "data attributes" do
   it "transforms normal data attributes comments" do
     Dang::it("<span[data-foo=party][data-bar=time] now span>").must_equal "<span data-foo='party' data-bar='time'>now</span>"
   end

@@ -1,7 +1,6 @@
 require "helper"
-require "style"
 
-describe Style do
+describe "style tags" do
   it "treat style tags special" do
     dang = "
 <style

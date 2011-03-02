@@ -1,7 +1,6 @@
-require 'helper'
-require 'doctype'
+require "helper"
 
-describe Doctype do
+describe "doctypes" do
   # based largely on HAML's doctype with a minor variation
   # http://haml-lang.com/docs/yardoc/file.HAML_REFERENCE.html#doctype_
 

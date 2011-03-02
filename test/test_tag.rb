@@ -1,7 +1,6 @@
 require "helper"
-require "tag"
 
-describe Tag do
+describe "tags" do
   it "transforms DANG tag to HTML tag" do
     Dang::it("<b BOLD b>").must_equal "<b>BOLD</b>"
   end

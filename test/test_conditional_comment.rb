@@ -1,5 +1,4 @@
-require 'helper'
-require 'conditional_comment'
+require "helper"
 
 # <! [if IE] !>
 # <! [end] !>
@@ -7,7 +6,7 @@ require 'conditional_comment'
 # <!--[if IE]>
 # <![endif]-->
 
-describe ConditionalComment do
+describe "conditional comments" do
   it "transforms IE conditional comments" do
     Dang::it("<! [if IE] !>\n...\n<! [end] !>").must_equal "<!--[if IE]>\n...\n<![endif]-->"
   end

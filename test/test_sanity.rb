@@ -1,4 +1,4 @@
-require 'helper'
+require "helper"
 
 describe "sanity" do
   before do

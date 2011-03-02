@@ -1,7 +1,6 @@
 require "helper"
-require "selector"
 
-describe Selector do
+describe "selectors" do
   it "transforms DANG tag#id into HTML tag with an id attribute" do
     Dang::it("<div#awesome lorem and or ipsum div>").must_equal "<div id='awesome'>lorem and or ipsum</div>"
   end
