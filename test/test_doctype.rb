@@ -31,4 +31,8 @@ describe "doctypes" do
   it "transforms xml utf8 encoding" do
     Dang.it("!!! xml iso-8859-1").must_equal "<?xml version='1.0' encoding='iso-8859-1' ?>"
   end
+
+  it "transforms doctype AND a tag" do
+    Dang.it("!!!\n<html yo html>").must_equal "<!doctype html>\n<html>yo</html>"
+  end
 end

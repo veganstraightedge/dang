@@ -278,7 +278,7 @@ class Dang::Parser
 
     #
 
-
+ #%%
   def initialize(str, debug=false)
     setup_parser(str, debug)
     @doctype = nil
@@ -300,7 +300,7 @@ class Dang::Parser
     "xhtml 1.1"            => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">',
     "xhtml 1.1 basic"      => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">',
     "xhtml 1.2 mobile"     => '<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.2//EN" "http://www.openmobilealliance.org/tech/DTD/xhtml-mobile12.dtd">',
-    "xhtml rdfa"           =>  '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">',
+    "xhtml rdfa"           => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">',
     "xhtml 5"              => '<!DOCTYPE html>',
 
     "xml iso-8859-1"       => "<?xml version='1.0' encoding='iso-8859-1' ?>"
@@ -314,12 +314,18 @@ class Dang::Parser
       @doctype = "html"
     end
 
-    DOC_TYPES[@doctype]
+    DOC_TYPES[@doctype].dup
   end
 
   def output
     str = html_doctype
-    str << @output.strip
+    out = @output.strip
+
+    unless out.empty?
+      str << "\n" << out
+    end
+
+    str
   end
 
 
