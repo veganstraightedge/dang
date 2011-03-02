@@ -5,4 +5,7 @@ README.md
 Rakefile
 bin/dang
 lib/dang.rb
+lib/dang/dang.rb
+lib/dang/parser.rb
+lib/dang/parser.kpeg
 test/test_dang.rb

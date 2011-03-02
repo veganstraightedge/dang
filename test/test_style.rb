@@ -26,6 +26,6 @@ p:after {
 <style>
 "
 
-    Dang::it(dang).must_equal html
+    Dang.it(dang).must_equal html
   end
 end

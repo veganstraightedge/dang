@@ -30,6 +30,6 @@ _gaq.push(['_trackPageview']);
 <script>
 "
 
-    Dang::it(dang).must_equal html
+    Dang.it(dang).must_equal html
   end
 end
