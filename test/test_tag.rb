@@ -12,7 +12,7 @@ describe "tags" do
   # it "transforms DANG tag to HTML tag" do
     # Dang.it("<b <e b> e>").must_equal "<b>BOLD</b>"
   # end
-  
+
   it "transforms DANG self closing tag to self closing HTML tag" do
     Dang.it("<img[src=foo.png] />").must_equal "<img src='foo.png' />"
   end
@@ -46,7 +46,7 @@ describe "tags" do
   hgroup>
 header>"
 
-    html = 
+    html =
 "<header>
   <hgroup>
     <h1>Dang Lang</h1>
@@ -57,6 +57,13 @@ header>"
     Dang.it(dang).must_equal html
   end
 
-  it "transforms sibling root tags"
+  it "transforms sibling root tags" do
+    Dang.it("<b BOLD b><i ME i>").must_equal "<b>BOLD</b><i>ME</i>"
+  end
+
+  it "transforms sibling root tags with significant whitespace" do
+    Dang.it("<b BOLD b>              <i ME i>").must_equal "<b>BOLD</b>              <i>ME</i>"
+  end
+
   it "multline with attrs and self closers"
 end

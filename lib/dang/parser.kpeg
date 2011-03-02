@@ -39,7 +39,7 @@
 
   def output
     str = html_doctype
-    str << @output
+    str << @output.strip
   end
 }
 
@@ -79,7 +79,4 @@ doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
         | start:l attrs:a pts body:b pts:es end:r { "<#{l} #{a}>#{b}#{es}</#{r}>" }
         | start:l pts:s body:b pts:es end:r { "<#{l}>#{s}#{b}#{es}</#{r}>" }
 
-   elem = doctype
-        | bs* tag:t { @output << t }
-
-  root = elem eof
+  root = doctype? body:b eof { @output = b }

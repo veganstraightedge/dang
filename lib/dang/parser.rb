@@ -319,7 +319,7 @@ class Dang::Parser
 
   def output
     str = html_doctype
-    str << @output
+    str << @output.strip
   end
 
 
@@ -1091,59 +1091,34 @@ class Dang::Parser
     return _tmp
   end
 
-  # elem = (doctype | bs* tag:t { @output << t })
-  def _elem
-
-    _save = self.pos
-    while true # choice
-    _tmp = apply('doctype', :_doctype)
-    break if _tmp
-    self.pos = _save
-
-    _save1 = self.pos
-    while true # sequence
-    while true
-    _tmp = apply('bs', :_bs)
-    break unless _tmp
-    end
-    _tmp = true
-    unless _tmp
-      self.pos = _save1
-      break
-    end
-    _tmp = apply('tag', :_tag)
-    t = @result
-    unless _tmp
-      self.pos = _save1
-      break
-    end
-    @result = begin;  @output << t ; end
-    _tmp = true
-    unless _tmp
-      self.pos = _save1
-    end
-    break
-    end # end sequence
-
-    break if _tmp
-    self.pos = _save
-    break
-    end # end choice
-
-    return _tmp
-  end
-
-  # root = elem eof
+  # root = doctype? body:b eof { @output = b }
   def _root
 
     _save = self.pos
     while true # sequence
-    _tmp = apply('elem', :_elem)
+    _save1 = self.pos
+    _tmp = apply('doctype', :_doctype)
+    unless _tmp
+      _tmp = true
+      self.pos = _save1
+    end
+    unless _tmp
+      self.pos = _save
+      break
+    end
+    _tmp = apply('body', :_body)
+    b = @result
     unless _tmp
       self.pos = _save
       break
     end
     _tmp = apply('eof', :_eof)
+    unless _tmp
+      self.pos = _save
+      break
+    end
+    @result = begin;  @output = b ; end
+    _tmp = true
     unless _tmp
       self.pos = _save
     end
