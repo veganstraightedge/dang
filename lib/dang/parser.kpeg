@@ -85,6 +85,7 @@ doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
     val = < (!"]" .)* > { text }
 
    attr = "[" key:k "=" val:v "]" { "#{k}='#{v}'" }
+        | "[" key:k "]" { k }
   attrs = attr:a attrs:l { "#{a} #{l}" }
         | attr
 
