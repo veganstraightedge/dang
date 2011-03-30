@@ -55,6 +55,28 @@
 
     str
   end
+
+  def attrs(at,sel=[])
+    out = []
+    classes = []
+
+    (at+sel).each do |key,val|
+      if key == "class"
+        classes.unshift val
+      elsif val == true
+        out << "#{key}"
+      else
+        out << "#{key}='#{val}'"
+      end
+    end
+
+    unless classes.empty?
+      out.unshift "class='#{classes.join(' ')}'"
+    end
+
+
+    out.join(' ')
+  end
 }
 
   space = " " | "\t"
@@ -91,28 +113,31 @@ doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
  dattrs = dattr:a dattrs:l { "#{a} #{l}" }
         | dattr
 
-   attr = "[data" dattrs:t "]" { t }
-        | "[" key:k "=" val:v "]" { "#{k}='#{v}'" }
-        | "[" key:k "]" { k }
-  attrs = attr:a attrs:l { "#{a} #{l}" }
-        | attr
+   attr = "[data" dattrs:t "]" { [t,true] }
+        | "[" key:k "=" val:v "]" { [k, v] }
+        | "[" key:k "]" { [k,true] }
+  attrs = attr:a attrs:l { [a] + l }
+        | attr:a { [a] }
 
 comment = "<!" < /[^!]*/ > "!>" { "<!--#{text}-->" }
 
  simple = /[a-zA-Z0-9_\-]+/
- select = "#" < simple > { "id='#{text}'" }
-        | "." < simple > { "class='#{text}'" }
+ select = "#" < simple > { ["id", text] }
+        | "." < simple > { ["class", text] }
 
-selects = select:s selects:t { "#{s} #{t}" }
-        | select
+selects = select:s selects:t { [s] + t }
+        | select:s { [s] }
 
     tag = start:l slash { "<#{l} />" }
-        | start:l attrs:a slash { "<#{l} #{a} />" }
+        | start:l attrs:a slash
+          { "<#{l} #{attrs(a)} />" }
         | start:l selects:t attrs:a pts body:b pts:es end:r
-          { "<#{l} #{t} #{a}>#{b}#{es}</#{r}>" }
-        | start:l attrs:a pts body:b pts:es end:r { "<#{l} #{a}>#{b}#{es}</#{r}>" }
+          { "<#{l} #{attrs(a,t)}>#{b}#{es}</#{r}>" }
+        | start:l attrs:a pts body:b pts:es end:r
+          { "<#{l} #{attrs(a)}>#{b}#{es}</#{r}>" }
         | start:l selects:t pts:s body:b pts:es end:r
-          { "<#{l} #{t}>#{s}#{b}#{es}</#{r}>" }
-        | start:l pts:s body:b pts:es end:r { "<#{l}>#{s}#{b}#{es}</#{r}>" }
+          { "<#{l} #{attrs(t)}>#{s}#{b}#{es}</#{r}>" }
+        | start:l pts:s body:b pts:es end:r
+          { "<#{l}>#{s}#{b}#{es}</#{r}>" }
 
   root = doctype? body:b eof { @output = b }

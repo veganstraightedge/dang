@@ -10,10 +10,10 @@ describe "selectors" do
   end
 
   it "transforms DANG tag#id.class into HTML tag with an id and a class" do
-    Dang.it("<s#pants.party woo hoo s>").must_equal "<s id='pants' class='party'>woo hoo</s>"
+    Dang.it("<s#pants.party woo hoo s>").must_equal "<s class='party' id='pants'>woo hoo</s>"
   end
 
   it "should merge shorthand and longhand classes" do
-    Dang.it("<html#foo.bar[class=snap crackle pop mitch] things html>").must_equal "<html id='foo' class='bar snap crackle pop mitch'>things</html>"
+    Dang.it("<html#foo.bar[class=snap crackle pop mitch] things html>").must_equal "<html class='bar snap crackle pop mitch' id='foo'>things</html>"
   end
 end
