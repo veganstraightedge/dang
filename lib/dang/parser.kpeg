@@ -66,7 +66,7 @@
 
 doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
 
-   name = < /[a-zA-Z0-9_-]+/ > { text }
+   name = < /[a-zA-Z0-9_\-:]+/ > { text }
   start = "<" name:n { n }
     pts = space+ { "" }
         | < eol bs* > { text }
@@ -82,7 +82,10 @@ doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
         | part
 
     key = name
-    val = < (!"]" .)* > { text }
+        | "'" < /[^'\n]*/ > "'" { text }
+
+    val = "'" < /[^'\n]*/ > "'" { text }
+        | < (!"]" .)* > { text }
 
    attr = "[" key:k "=" val:v "]" { "#{k}='#{v}'" }
         | "[" key:k "]" { k }

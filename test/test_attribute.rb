@@ -6,11 +6,11 @@ describe "attributes" do
   end
 
   it "transforms data attributes" do
-    Dang.it("<span[data-lon=-104.6982][data-lat=44.5889] Devil's Tower span>").must_equal "<span data-lat='44.5889' data-lon='-104.6982'>Devil's Tower</span>"
+    Dang.it("<span[data-lon=-104.6982][data-lat=44.5889] Devil's Tower span>").must_equal "<span data-lon='-104.6982' data-lat='44.5889'>Devil's Tower</span>"
   end
 
   it "transforms nested data attributes" do
-    Dang.it("<span[data[lon=-104.6982][lat=44.5889]] Devil's Tower span>").must_equal "<span data-lat='44.5889' data-lon='-104.6982'>Devil's Tower</span>"
+    Dang.it("<span[data[lon=-104.6982][lat=44.5889]] Devil's Tower span>").must_equal "<span data-lon='-104.6982' data-lat='44.5889'>Devil's Tower</span>"
   end
 
   it "transforms boolean attributes" do
@@ -21,12 +21,8 @@ describe "attributes" do
     Dang.it("<a[href=/][title=Internet Homesite Webpage]  Home a>").must_equal "<a href='/' title='Internet Homesite Webpage'>Home</a>"
   end
 
-  it "escapes text in attributes" do
-    Dang.it("<textarea#user_bio[name=user[bio\]] super awesome dude, right? textarea>").must_equal "<textarea id='user_bio' name='user[bio]'>super awesome dude, right?</textarea>"
-  end
-
-  it "escapes text in attribute values" do
-    Dang.it("<a[href=/user/123][title=guy man dude[and stuff\]] guy man dude's profile page a>").must_equal "<a href='/user/123' title='guy man dude[and stuff]'>guy man dude's profile page</a>"
+  it "allows brackets in quoted values" do
+    Dang.it("<textarea[name='user[bio]'] super awesome dude, right? textarea>").must_equal "<textarea name='user[bio]'>super awesome dude, right?</textarea>"
   end
 
   it "allows quoted attributes" do
