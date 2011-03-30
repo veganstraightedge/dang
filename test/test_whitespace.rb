@@ -5,13 +5,12 @@ require "helper"
 
 # TODO experimental
 
-describe "whitespace" do
-  describe "ignoring" do
-    it "should ignore whitespace"
-  end
-
-  describe "preservation" do
-    it "should preverse whitespace"
-  end
-end
-
+# describe "whitespace" do
+#   describe "ignoring" do
+#     it "should ignore whitespace"
+#   end
+# 
+#   describe "preservation" do
+#     it "should preverse whitespace"
+#   end
+# end

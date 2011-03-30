@@ -1,0 +1,230 @@
+!!!
+html[dir=ltr][lang=en-US] {
+
+head {
+  meta[charset=UTF-8]
+  title { The Internet Home Site of Shane Becker }
+  script[src=/javascripts/html5shiv.js?1293826648]{}
+  script[src=/javascripts/jquery.js?1293826648]{}
+  script[src=/javascripts/paging_keys.js?1293826648]{}
+  link[href=/stylesheets/reset.css?1293826648][media=screen][rel=stylesheet]
+  link[href=/stylesheets/application.css?1293826648][media=screen][rel=stylesheet]
+  link[href=/feed][rel=alternate][title="I Am Shane Becker"][type="application/atom+xml"]
+  link#short_url[href=http://sbb.me][rel=shorturl][type=text/html]
+  meta[name=csrf-param][content=authenticity_token]
+  meta[name=csrf-token][content=wPLyoaxee/y1v+3RUGYzcZqH1fbU526Nf7qYYoJakaY=]
+
+  style { |css|
+    body {
+      background: red;
+    }
+
+    p:after {
+      content: "}";
+    }
+  }
+} //head
+
+body {
+  header.site {
+    h1 { I Am Shane Becker }
+  }
+
+  h2#callout { a[href=/products/your-slides-suck] { NEW strong { $15 Screencast } Your Slides Suck } }
+
+  ol.hfeed {
+
+    li {
+      article#status_1191.hentry.status {
+        header {
+          h1.entry-title.entry-content {
+            { Growing is Forever : }
+            a.link[rel=external][href=http://t.co/qc3LDIN] { http://t.co/qc3LDIN }
+            /cc
+            a.at_username[rel=external][href=http://twitter.com/tjnelsonjr] { @tjnelsonjr }
+          }
+        }
+
+        footer {
+          h1.vcard {
+            a.email[href=mailto:veganstraightedge@gmail.com] { span.fn.author { Shane Becker } }
+            span.verb { published }
+            span.preposition { this }
+            span.object-type { status }
+            span.preposition { on }
+
+            time[datetime=2011-02-06T06:02][pubdate] {
+              a.bookmark[href=/statuses/2011/2/5/4][rel=bookmark] {
+                { February, 06, 2011 }
+                span.preposition { at }
+                { 06:38:40 }
+              }
+            }
+          } //.vcard
+
+          table.urls {
+            tr {
+              th { label.short_url[for=short_url_status_1191] { Short URL } }
+              th { label.long_url[for=long_url_status_1191]  { Long URL } }
+            }
+            tr {
+              td { input#short_url_status_1191.short_url[name=name_url][type=url][value="http://sbb.me/s4AA4] /> }
+              td { input#long_url_status_1191.long_url[name=long_url][type=url][value=http://iamshane.com/statuses/2011/2/5/4] /> }
+            }
+          } //.urls
+
+          h3.redistribution {
+            { Also published at }
+            a[href=http://twitter.com/veganstraightedge/statuses/34138891636178944][rel=me] { http://twitter.com/veganstraightedge/statuses/34138891636178944 }
+          } //.redistribution
+        } //footer
+      } //article
+    } //li
+
+    li {
+      article#status_800.hentry.status {
+        header {
+          h1.entry-title.entry-content {
+            a.at_username[rel=external][href=http://twitter.com/gilesgoatboy] { @gilesgoatboy }
+            { Oh shit. You're right. It was the jigga man. My bad. }
+          }
+        }
+
+        footer {
+          h1.vcard {
+          a.email[href=mailto:veganstraightedge@gmail.com] { span.fn.author { Shane Becker } }
+            span.verb { published }
+            span.preposition { this }
+            span.object-type { status }
+            span.preposition { on }
+
+            time[datetime=2011-02-06T04:02][pubdate] {
+              a.bookmark[href=/statuses/2011/2/5/3][rel=bookmark] {
+                { February, 06, 2011 }
+                span.preposition { at }
+                { 04:18:28 }
+              }
+            }
+          } //.vcard
+
+          table.urls {
+            tr {
+              th { label.short_url[for=short_url_status_800] { Short URL } }
+              th { label.long_url[for=long_url_status_800] { Long URL } }
+            }
+            tr {
+              td { input#short_url_status_800.short_url[name=name_url][type=url][value="http://sbb.me/s4AA3] }
+              td { input#long_url_status_800.long_url[name=long_url][type=url][value="http://iamshane.com/statuses/2011/2/5/3] }
+            }
+          } //.urls
+
+          h3.redistribution {
+            { Also published at }
+            a[href=http://twitter.com/veganstraightedge/statuses/34103607427076098][rel=me] { http://twitter.com/veganstraightedge/statuses/34103607427076098 }
+          } //.redistribution
+        } //footer
+      } //article
+    } //li
+
+  } //ol.hfeed
+
+  div.pagination {
+    span.previous_page.disabled { &#8592; Previous }
+    em { 1 }
+    a[href=/page/2 ][rel=next] { 2 }
+    a[href="/page/3 ] { 3 }
+    a[href="/page/4 ] { 4 }
+    a[href="/page/5 ] { 5 }
+    a[href="/page/6 ] { 6 }
+    a[href="/page/7 ] { 7 }
+    a[href="/page/8 ] { 8 }
+    a[href="/page/9 ] { 9 }
+    span.gap { &hellip; }
+    a[href=/page/415] { 415 }
+    a[href=/page/416] { 416 }
+    a.next_page[href=/page/2][rel=next] { Next &#8594; }
+  } //.pagination
+
+  footer#bottom.site {
+    <h1>A Bit More About Me&hellip;</h1>
+    <p>
+      My name is <span class="fn"><span class="given-name">Shane</span> <span class="family-name">Becker</span></span>.
+      I live in <span class="adr"><span class="locality">Los Angeles</span>, <span class="region">CA</span></span>.
+      I make websites for fun and for profit.
+      I&rsquo;m still vegan, still straightedge. I&rsquo;m an anarchist and an atheist.
+      My <a href="http://flickr.com/photos/veganstraightedge/tags/civ" rel="me">dog</a> is
+      <a href="http://twitter.com/civthedog" rel="me">Civ</a>.
+      My girlfriend is <a href="http://twitter.com/staceyxvx" rel="girlfriend">Stacey Spencer</a>.
+    </p>
+
+    h2 {
+      I&rsquo;ve made some things (sometimes along side
+      <a href="http://eliduke.com" rel="friend">Eli Duke</a>
+      and
+      <a href="http://iambookis.com" rel="friend">Bookis Smuin</a>).
+    }
+    ul {
+      li { a[href=http://zinedistro.org][rel=me]                { Zine Distro                    } }
+      li { a[href=http://listyourlist.com][rel=me]              { ListYourList                   } }
+      li { a[href=http://theresistancearmy.com][rel=me]         { The Resistance Army            } }
+      li { a[href=http://foodsquatting.com][rel=me]             { Food Squatting                 } }
+      li { a[href=http://thegreatamericanaroadtrip.com][rel=me] { The Great Americana Road Trip  } }
+      li { a[href=http://iamshanebecker.com][rel=me]            { My Resume                      } }
+    }
+
+    h2 { I have profiles on other websites. }
+    ul {
+      li { a[href=http://twitter.com/veganstraightedge][rel=me] { Twitter } }
+      li { a[href=http://flickr.com/veganstraightedge][rel=me] { Flickr } }
+      li { a[href=http://facebook.com/veganstraightedge][rel=me] { Facebook } }
+      li { a[href=http://vimeo.com/veganstraightedg][rel=me] { Vimeo } }
+      li { a[href=http://youtube.com/user/veganstraightedge][rel=me] { YouTube } }
+      li { a[href=http://dribbble.com/players/veganstraightedge][rel=me] { Dribble } }
+      li { a[href=http://foursquare.com/user/veganstraightedge][rel=me] { FourSquare } }
+      li { a[href=http://gowalla.com/users/seanbonner][rel=me] { Gowalla } }
+      li { a[href=http://last.fm/user/vegansxe][rel=me] { Last.FM } }
+      li { a[href=http://listyourlist.com/veganstraightedge][rel=me] { ListYourList } }
+      li { a[href=http://github.com/veganstraightedge][rel=me] { GitHub } }
+      li { a[href=http://www.google.com/profiles/veganstraightedge][rel=me] { Google Profile } }
+      li { a[href=http://del.icio.us/veganstraightedge][rel=me] { Delicious } }
+      li { a[href=http://del.icio.us/shaners][rel=me] { Delicious } }
+      li { a[href=http://pinboard.in/u:veganstraightedge][rel=me] { Pinboard } }
+    }
+
+    p#contact {
+      You can contact me by email (a.email[href=mailto:veganstraightedge@gmail.com] { veganstraightedge@gmail.com })
+      or by phone (span.tel { 801-898-9481 }). Please, no spam.
+      You can a[href=http://h2vx.com/vcf/iamshane.com] { download my vCard } for your address book.
+      All content on this site (unless created by someone else) is licensed under
+      a[href=http://creativecommons.org/licenses/by/2.0/deed.en][rel=license] { Creative Commons Attribution License }
+      which means you can republish whatever you want as long as you attribute me and link back to the original page.
+    }
+
+    p#no_comments {
+      A quick note about comments on posts. The short and long of it is, I&rsquo;m over comments.
+      They&rsquo;re a lot of work for very little benefit. In migrating my blog posts to this version of my site,
+      I threw out most of the comments which were total trash or meaningless drivel.
+      I&rsquo;ve made a few exceptions where I felt like they added some value.
+      Comments are off and are staying off. If you&rsquo;ve got something to say to me that&rsquo;s private,
+      a[href=mailto:veganstraightedge@gmail.com]{ email me }. If you want to say it in the public,
+      a[href=http://twitter.com/home?status=@veganstraightedge%20-]{ write it on Twitter }
+      or your own blog (they&rsquo;re
+      a[href=http://wordpress.com]{ free } and a[href=http://tumblr.com]{ easy }).
+    }
+  } //footer
+
+
+  script { |js|
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-193482-20']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+  }
+
+  } //body
+} //html

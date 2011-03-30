@@ -5,14 +5,6 @@ describe "tags" do
     Dang.it("<b BOLD b>").must_equal "<b>BOLD</b>"
   end
 
-  # it "transforms DANG tag to HTML tag" do
-    # Dang.it("!!!\n<b BOLD b>").must_equal "<b>BOLD</b>"
-  # end
-
-  # it "transforms DANG tag to HTML tag" do
-    # Dang.it("<b <e b> e>").must_equal "<b>BOLD</b>"
-  # end
-
   it "transforms DANG self closing tag to self closing HTML tag" do
     Dang.it("<img[src=foo.png] />").must_equal "<img src='foo.png' />"
   end
@@ -65,5 +57,5 @@ header>"
     Dang.it("<b BOLD b>              <i ME i>").must_equal "<b>BOLD</b>              <i>ME</i>"
   end
 
-  it "multline with attrs and self closers"
+  # it "multline with attrs and self closers"
 end
