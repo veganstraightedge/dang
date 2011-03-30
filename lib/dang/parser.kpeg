@@ -98,9 +98,21 @@ doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
         | attr
 
 comment = "<!" < /[^!]*/ > "!>" { "<!--#{text}-->" }
+
+ simple = /[a-zA-Z0-9_\-]+/
+ select = "#" < simple > { "id='#{text}'" }
+        | "." < simple > { "class='#{text}'" }
+
+selects = select:s selects:t { "#{s} #{t}" }
+        | select
+
     tag = start:l slash { "<#{l} />" }
         | start:l attrs:a slash { "<#{l} #{a} />" }
+        | start:l selects:t attrs:a pts body:b pts:es end:r
+          { "<#{l} #{t} #{a}>#{b}#{es}</#{r}>" }
         | start:l attrs:a pts body:b pts:es end:r { "<#{l} #{a}>#{b}#{es}</#{r}>" }
+        | start:l selects:t pts:s body:b pts:es end:r
+          { "<#{l} #{t}>#{s}#{b}#{es}</#{r}>" }
         | start:l pts:s body:b pts:es end:r { "<#{l}>#{s}#{b}#{es}</#{r}>" }
 
   root = doctype? body:b eof { @output = b }
