@@ -1,3 +1,5 @@
+%% name = Dang::Parser
+
 %% { #%%
   def initialize(str, debug=false)
     setup_parser(str, debug)
@@ -38,11 +40,17 @@
   end
 
   def output
-    str = html_doctype
+    doctype = html_doctype
     out = @output.strip
 
-    unless out.empty?
-      str << "\n" << out
+    if doctype.empty?
+      str = out
+    else
+      if out.empty?
+        str = doctype
+      else
+        str = doctype << "\n" << out
+      end
     end
 
     str
@@ -69,7 +77,7 @@ doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
  marker = start | (- end)
   chunk = < (!marker .)* > { text }
 
-   part = tag | chunk
+   part = comment | tag | chunk
    body = part:p body:b { "#{p}#{b}" }
         | part
 
@@ -80,6 +88,7 @@ doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
   attrs = attr:a attrs:l { "#{a} #{l}" }
         | attr
 
+comment = "<!" < /[^!]*/ > "!>" { "<!--#{text}-->" }
     tag = start:l slash { "<#{l} />" }
         | start:l attrs:a slash { "<#{l} #{a} />" }
         | start:l attrs:a pts body:b pts:es end:r { "<#{l} #{a}>#{b}#{es}</#{r}>" }

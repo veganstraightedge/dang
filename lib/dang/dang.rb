@@ -1,5 +1,9 @@
 require 'stringio'
-require 'dang/parser'
+
+require 'rubygems'
+require 'kpeg'
+
+# require 'dang/parser'
 
 class Dang
   VERSION = '0.1.0'
@@ -18,3 +22,6 @@ class Dang
   end
 
 end
+
+parser = File.expand_path("../parser.kpeg", __FILE__)
+KPeg.load parser, "Dang::Parser"
