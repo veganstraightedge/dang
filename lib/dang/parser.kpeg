@@ -74,7 +74,6 @@
       out.unshift "class='#{classes.join(' ')}'"
     end
 
-
     out.join(' ')
   end
 }
@@ -121,8 +120,8 @@ doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
 
 comment = "<!" < /[^!]*/ > "!>" { "<!--#{text}-->" }
 
-conditional_comment_start = "<! [if IE] !>" { "<!--[if IE]>" }
-conditional_comment_end   = "<! [end] !>"   { "<![endif]-->" }
+conditional_comment_start = "<!" space+ "[if IE" < /\d*/ > "]" space+ "!>" { "<!--[if IE#{text}]>" }
+conditional_comment_end   = "<!" space+ "[end]"   space+ "!>" { "<![endif]-->" }
 
  simple = /[a-zA-Z0-9_\-]+/
  select = "#" < simple > { ["id", text] }
