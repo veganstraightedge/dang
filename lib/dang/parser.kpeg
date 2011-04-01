@@ -99,7 +99,7 @@ doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
  marker = start | (- end)
   chunk = < (!marker .)* > { text }
 
-   part = comment | tag | chunk
+   part = conditional_comment_start | conditional_comment_end | comment | tag | chunk
    body = part:p body:b { "#{p}#{b}" }
         | part
 
@@ -120,6 +120,9 @@ doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
         | attr:a { [a] }
 
 comment = "<!" < /[^!]*/ > "!>" { "<!--#{text}-->" }
+
+conditional_comment_start = "<! [if IE] !>" { "<!--[if IE]>" }
+conditional_comment_end   = "<! [end] !>"   { "<![endif]-->" }
 
  simple = /[a-zA-Z0-9_\-]+/
  select = "#" < simple > { ["id", text] }
