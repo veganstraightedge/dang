@@ -120,8 +120,9 @@ doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
 
 comment = "<!" < /[^!]*/ > "!>" { "<!--#{text}-->" }
 
-conditional_comment_start = "<!" space+ "[if IE" < /\d*/ > "]" space+ "!>" { "<!--[if IE#{text}]>" }
-conditional_comment_end   = "<!" space+ "[end]"   space+ "!>" { "<![endif]-->" }
+# HACK that's not a pretty regex
+conditional_comment_start = "<!" space+ "[if"   space+ < /l*g*t*e*\s*!*IE\s*\d*\.*\d*/ > "]" space+ "!>" { "<!--[if #{text}]>" }
+conditional_comment_end   = "<!" space+ "[end]" space+ "!>" { "<![endif]-->" }
 
  simple = /[a-zA-Z0-9_\-]+/
  select = "#" < simple > { ["id", text] }
