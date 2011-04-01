@@ -1,4 +1,4 @@
 class Dang
 end
 
-require "dang/dang"
+require File.expand_path("../../lib/dang/dang", __FILE__)

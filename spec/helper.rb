@@ -1,4 +1,4 @@
 require 'rubygems'
 require 'minitest/autorun'
 require 'minitest/pride'
-require 'dang'
+require File.expand_path("../../lib/dang", __FILE__)
