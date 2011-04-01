@@ -1,6 +1,6 @@
 %% name = Dang::Parser
 
-%% { #%%
+%% {
   def initialize(str, debug=false)
     setup_parser(str, debug)
     @doctype = nil
