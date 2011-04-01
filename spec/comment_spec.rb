@@ -1,4 +1,4 @@
-require "helper"
+require "spec/helper"
 
 describe "comments" do
   it "transforms DANG <! comment !> comments into html comments" do

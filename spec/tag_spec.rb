@@ -1,4 +1,4 @@
-require "helper"
+require "spec/helper"
 
 describe "tags" do
   it "transforms DANG tag to HTML tag" do

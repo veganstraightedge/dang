@@ -1,4 +1,4 @@
-require "helper"
+require "spec/helper"
 
 # describe "style tags" do
 #   it "treat style tags special" do

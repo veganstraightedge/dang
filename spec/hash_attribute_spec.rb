@@ -1,4 +1,4 @@
-require "helper"
+require "spec/helper"
 
 # describe "hash attributes" do
 #   it "should have a shorthand for a hash as attributes" do

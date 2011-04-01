@@ -1,4 +1,4 @@
-require "helper"
+require "spec/helper"
 
 describe "data attributes" do
   it "transforms normal data attributes comments" do

@@ -1,4 +1,4 @@
-require "helper"
+require "spec/helper"
 
 # describe "script tags" do
 #   it "treat script tag special" do
