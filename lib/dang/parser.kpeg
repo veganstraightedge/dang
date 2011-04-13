@@ -95,10 +95,10 @@ doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
     end = name:n ">" { n }
   slash = - "/>"
 
- marker = start | (- end)
+ marker = start | "<!" | (- end)
   chunk = < (!marker .)* > { text }
 
-   part = conditional_comment_start | conditional_comment_end | comment | tag | chunk
+   part = comment | tag | chunk
    body = part:p body:b { "#{p}#{b}" }
         | part
 
@@ -118,11 +118,14 @@ doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
   attrs = attr:a attrs:l { [a] + l }
         | attr:a { [a] }
 
-comment = "<!" < /[^!]*/ > "!>" { "<!--#{text}-->" }
-
-# HACK that's not a pretty regex
-conditional_comment_start = "<!" space+ "[if"   space+ < /[lgte]*\s*!*IE\s*[\d|\.\d]*/ > "]" space+ "!>" { "<!--[if #{text}]>" }
-conditional_comment_end   = "<!" space+ "[end]" space+ "!>" { "<![endif]-->" }
+  cc_if = /[iI][fF]/
+ cc_end = /[eE][nN][dD][iI][fF]/
+comment = "<!" space+ < "[" space* cc_if (!"]" .)* "]" > space+ "!>"
+          { "<!--#{text}>" }
+        |  "<!" space+ < "[" space* cc_end (!"]" .)* "]" > space+ "!>"
+          { "<!#{text}-->" }
+        | "<!" < /[^!]*/ > "!>"
+          { "<!--#{text}-->" }
 
  simple = /[a-zA-Z0-9_\-]+/
  select = "#" < simple > { ["id", text] }
