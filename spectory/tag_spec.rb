@@ -1,4 +1,4 @@
-require "spec/helper"
+require "spectory/helper"
 
 describe "tags" do
   it "transforms DANG tag to HTML tag" do

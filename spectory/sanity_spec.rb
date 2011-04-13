@@ -1,4 +1,4 @@
-require "spec/helper"
+require "spectory/helper"
 
 describe "sanity" do
   before do

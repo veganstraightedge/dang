@@ -19,7 +19,7 @@ end
 task :default => :spec
 
 task :spec do
-  Dir[File.dirname(__FILE__) + "/spec/**/*_spec.rb"].each do |path|
+  Dir[File.dirname(__FILE__) + "/spectory/**/*_spec.rb"].each do |path|
     require path
   end
 

@@ -1,4 +1,4 @@
-require "spec/helper"
+require "spectory/helper"
 
 describe "attributes" do
   it "transforms DANG tag[attr=value] into HTML tag with an attribute and value" do

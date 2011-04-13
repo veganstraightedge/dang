@@ -1,4 +1,4 @@
-require "spec/helper"
+require "spectory/helper"
 
 # Think about filters
 #   <:markdown

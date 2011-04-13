@@ -1,4 +1,4 @@
-require "spec/helper"
+require "spectory/helper"
 
 describe "comments" do
   it "transforms DANG <! comment !> comments into html comments" do
