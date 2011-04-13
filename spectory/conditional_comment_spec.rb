@@ -2,7 +2,7 @@ require "spectory/helper"
 
 # from
 # <! [if IE] !>
-# <! [end] !>
+# <! [endif] !>
 # to
 # <!--[if IE]>
 # <![endif]-->
@@ -50,8 +50,7 @@ describe "conditional comments" do
     Dang.it("<! [if IE] !>...<! [endif] !>").must_equal "<!--[if IE]>...<![endif]-->"
   end
 
-  it "allows the body to dangified"
-
-  # it "does all the permutations of IE conditional comments"
-  # it "transforms IE conditional comments for non IE"
+  it "allows the body to dangified" do
+    Dang.it("<! [if IE] !><h1 THIS IS IE h1><! [endif] !>").must_equal "<!--[if IE]><h1>THIS IS IE</h1><![endif]-->"
+  end
 end
