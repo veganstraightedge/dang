@@ -1,5 +1,8 @@
 require "spectory/helper"
 
+# TODO experimental
+# for v2
+
 # describe "hash attributes" do
 #   it "should have a shorthand for a hash as attributes" do
 #     # HAML like shorthand for a hash of attributes

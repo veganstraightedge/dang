@@ -1,6 +1,7 @@
 require "spectory/helper"
 
 # TODO experimental
+# for v2
 
 # describe "array classes" do
 #   it "joins an array of items into space separate attribute values" do

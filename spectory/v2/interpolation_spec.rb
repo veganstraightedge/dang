@@ -1,6 +1,7 @@
 require "spectory/helper"
 
 # TODO experimental
+# for v2
 
 # describe "interpolation" do
 #   it "should allow ruby interpolation in ids"
