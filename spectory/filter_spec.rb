@@ -1,32 +1,27 @@
 require "spectory/helper"
 
-# Think about filters
+# filters
 #   <:markdown
-#   	# This is a h1 heading
-#   	## h2
-#   	*bold text*
-#   	* a
-#   	* of
-#   	* items
+#     # This is a h1 heading
+#     ## h2
+#     *bold text*
+#     * a
+#     * of
+#     * items
 #   markdown:>
 
-# TODO experimental
-
-# describe "filters" do
-#   describe "markdown" do
-#     it "farms out to markdown processing with markdown filter" do
-#       Dang.it("<:markdown # heading markdown:>").must_equal "<h1>heading</h1>"
-#     end
-#   end
-# end
-
+#   <:raw <!--[if (gt IE 9)|!(IE)]><!--> raw:><html.no-js[lang=en]<:raw <!--<![endif]--> raw:>
 
 describe "filters" do
   it "can parse simple bodies" do
     Dang.it('<:raw food raw:>').must_equal 'food'
   end
 
-  it "farms out to a filter" do
+  it "farms out to raw a filter" do
     Dang.it('<:raw <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" dir="ltr" class="no-js"> <!--<![endif]--> raw:>').must_equal '<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" dir="ltr" class="no-js"> <!--<![endif]-->'
+  end
+
+  it "farms out to 2 raw filters with DANG in between" do
+    Dang.it('<:raw <!--[if (gt IE 9)|!(IE)]><!--> raw:> <html.no-js[lang=en][dir=ltr] <:raw <!--<![endif]--> raw:> html>').must_equal "<!--[if (gt IE 9)|!(IE)]><!--> <html class='no-js' lang='en' dir='ltr'> <!--<![endif]--> </html>"
   end
 end
