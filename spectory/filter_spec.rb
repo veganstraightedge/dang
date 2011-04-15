@@ -22,6 +22,10 @@ require "spectory/helper"
 
 
 describe "filters" do
+  it "can parse simple bodies" do
+    Dang.it('<:raw food raw:>').must_equal 'food'
+  end
+
   it "farms out to a filter" do
     Dang.it('<:raw <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" dir="ltr" class="no-js"> <!--<![endif]--> raw:>').must_equal '<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" dir="ltr" class="no-js"> <!--<![endif]-->'
   end

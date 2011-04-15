@@ -98,7 +98,7 @@ doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
  marker = start | "<!" | (- end)
   chunk = < (!marker .)* > { text }
 
-   part = comment | tag | chunk
+   part = filter | comment | tag | chunk
    body = part:p body:b { "#{p}#{b}" }
         | part
 
@@ -133,6 +133,11 @@ comment = "<!" space+ < "[" space* cc_if (!"]" .)* "]" > space+ "!>"
 
 selects = select:s selects:t { [s] + t }
         | select:s { [s] }
+
+end_filter(n) = < /[a-zA-Z]+/ > &{ n == text } ":>"
+
+filter = "<:" name:n bs* < (!end_filter(n) .)* > bs* end_filter(n)
+         { Dang.run_filter(n, text) }
 
     tag = start:l slash { "<#{l} />" }
         | start:l attrs:a slash
