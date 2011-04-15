@@ -134,9 +134,9 @@ comment = "<!" space+ < "[" space* cc_if (!"]" .)* "]" > space+ "!>"
 selects = select:s selects:t { [s] + t }
         | select:s { [s] }
 
-end_filter(n) = < /[a-zA-Z]+/ > &{ n == text } ":>"
+end_filter(n) = bs* < /[a-zA-Z]+/ > &{ n == text } ":>"
 
-filter = "<:" name:n bs* < (!end_filter(n) .)* > bs* end_filter(n)
+filter = "<:" name:n bs* < (!end_filter(n) .)* > end_filter(n)
          { Dang.run_filter(n, text) }
 
     tag = start:l slash { "<#{l} />" }

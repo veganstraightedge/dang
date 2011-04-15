@@ -22,6 +22,6 @@ describe "filters" do
   end
 
   it "farms out to 2 raw filters with DANG in between" do
-    Dang.it('<:raw <!--[if (gt IE 9)|!(IE)]><!--> raw:> <html.no-js[lang=en][dir=ltr] <:raw <!--<![endif]--> raw:> html>').must_equal "<!--[if (gt IE 9)|!(IE)]><!--> <html class='no-js' lang='en' dir='ltr'> <!--<![endif]--> </html>"
+    Dang.it('<:raw <!--[if (gt IE 9)|!(IE)]><!--> raw:> <html.no-js[lang=en][dir=ltr] <:raw <!--<![endif]--> raw:> html>').must_equal "<!--[if (gt IE 9)|!(IE)]><!--> <html class='no-js' lang='en' dir='ltr'><!--<![endif]--></html>"
   end
 end
