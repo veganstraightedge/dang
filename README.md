@@ -2,41 +2,81 @@
 
 https://github.com/veganstraightedge/dang
 
-## DESCRIPTION
+## Description
 
-Another Dang Templating Language
+Another dang templating language.
 
-## FEATURES/PROBLEMS
+## Features
 
 * CSS selectors for HTML tags
 * Not as noisy syntax than ERB
 * Not quite as elegant as [HAML](http://haml-lang.com)
 * No %s in the codez
 * More closers than HAML
-* Lots is based on / inspired by [HAML](http://haml-lang.com/docs/yardoc/file.HAML_REFERENCE.html)
+* A lot is based on / inspired by [HAML](http://haml.info)
 
-## SYNOPSIS
+## Synopsis
 
     <b BOLD b> => <b>BOLD</b>
 
-## REQUIREMENTS
+## Current Version
 
-* stuff
-* things
+0.1.0
 
-## INSTALL
+## Requirements
 
-    sudo gem install dang
+* [rake](https://github.com/jimweirich/rake)
+* [kpeg](https://github.com/evanphx/kpeg)
+* [hoe](https://github.com/seattlerb/hoe/)
 
-## DEVELOPERS
+## Installation
+
+### Gemfile
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'dang'
+```
+
+### Manual
+
+Or install it yourself as:
+
+```bash
+gem install dang
+```
+
+You may need to use `sudo` to install it manually.
+
+## Developers
 
 After checking out the source, run:
 
-    $ rake newb
+    rake newb
 
-This task will install any missing dependencies, run the tests/specs,
-and generate the RDoc.
+This task will install any missing dependencies, run the tests/specs, and generate the RDoc.
 
-## LICENSE
+## Authors
 
-PUBLIC DOMAIN. Your heart is as free as the air you breathe. The ground you stand on is liberated territory.
+  * Shane Becker / [@veganstraightedge](https://github.com/veganstraightedge)
+  * Evan Phoenix / [@evanphx](https://github.com/evanphx)
+
+## Contributing
+
+1. Fork it
+2. Get it running
+3. Create your feature branch (`git checkout -b my-new-feature`)
+4. Write your code and **specs**
+5. Commit your changes (`git commit -am 'Add some feature'`)
+6. Push to the branch (`git push origin my-new-feature`)
+7. Create new Pull Request
+
+If you find bugs, have feature requests or questions, please
+[file an issue](https://github.com/veganstraightedge/dang).
+
+## License
+
+**PUBLIC DOMAIN**.
+Your heart is as free as the air you breathe.
+The ground you stand on is liberated territory.
