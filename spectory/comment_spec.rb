@@ -16,4 +16,8 @@ describe "comments" do
   it "transforms trailing <! comments !> into html comments" do
     Dang.it("<html html html> <! html !>").must_equal "<html>html</html> <!-- html -->"
   end
+
+  it "transforms trailing <! comments !> into html comments" do
+    Dang.it("<b bold text html> <! b! !>").must_equal "<b>bold text</b> <!-- b! -->"
+  end
 end
