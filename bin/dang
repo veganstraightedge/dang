@@ -1,1 +1,26 @@
-abort "gosh dang it!"
+#!/usr/bin/env ruby
+
+require 'dang'
+require 'optparse'
+
+to_eval = nil
+path = nil
+
+opt = OptionParser.new do |o|
+  o.on "-e STR", "Evaluate the string as DANG" do |s|
+    to_eval = s
+  end
+end
+
+opt.parse! ARGV
+
+if to_eval
+  puts Dang.it(to_eval)
+
+else
+  path = ARGV.shift
+  if !path
+    raise "Specify -e or a path to a file"
+  end
+  puts Dang.it(File.read(path))
+end
