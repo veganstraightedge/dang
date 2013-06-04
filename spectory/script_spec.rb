@@ -1,7 +1,7 @@
 require "spectory/helper"
 
 describe "script tags" do
-  it "treat script tag special" do
+  it "treats script tag special" do
     dang = "
 <script
 var _gaq = _gaq || [];
