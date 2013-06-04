@@ -1,0 +1,17 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    hoe (3.6.2)
+      rake (>= 0.8, < 11.0)
+    kpeg (0.10.0)
+    minitest (5.0.3)
+    rake (10.0.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  hoe
+  kpeg
+  minitest
+  rake
