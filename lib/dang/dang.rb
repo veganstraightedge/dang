@@ -11,7 +11,7 @@ class Dang
   @filters = {}
 
   class << self
-    def it(str)
+    def it(str, env=nil)
       parser = Dang::Parser.new(str, true)
       unless parser.parse
         io = StringIO.new
@@ -19,7 +19,7 @@ class Dang
         raise io.string
       end
 
-      parser.output
+      parser.output(env)
     end
 
     def register_filter(name, filter)

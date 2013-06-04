@@ -39,9 +39,27 @@
     DOC_TYPES[@doctype].dup
   end
 
-  def output
+  def output(env=nil)
     doctype = html_doctype
-    out = @output.strip
+
+    strings = @output.flatten.map do |i|
+      case i
+      when Literal
+        "_out << #{i.str.dump}"
+      when Code
+        if i.print
+          "_out << (#{i.str}).to_s"
+        else
+          i.str
+        end
+      when Filter
+        "_out << Dang.run_filter('#{i.name}', #{i.str.dump}).to_s"
+      end
+    end
+
+    code = "_out = '';\n" + strings.join(";") + ";_out"
+
+    out = eval(code, env || binding).strip
 
     if doctype.empty?
       str = out
@@ -76,6 +94,57 @@
 
     out.join(' ')
   end
+
+  class Literal
+    def initialize(str)
+      @str = str
+    end
+
+    attr_reader :str
+  end
+
+  class Code
+    def initialize(str, print)
+      @str = str
+      @print = print
+    end
+
+    attr_reader :str, :print
+  end
+
+  class Filter
+    def initialize(name, str)
+      @name = name
+      @str = str
+    end
+
+    attr_reader :name, :str
+  end
+
+  def joinm(*elems)
+    elems.map do |i|
+      if i.kind_of? String
+        Literal.new(i)
+      else
+        i
+      end
+    end
+  end
+
+  def join(f,b)
+    f = Literal.new(f) if f.kind_of? String
+    b = Literal.new(b) if b.kind_of? String
+
+    if b.kind_of? Array
+      [f] + b
+    else
+      [f,b]
+    end
+  end
+
+  def code(str, print=true)
+    Code.new(str, print)
+  end
 }
 
   space = " " | "\t"
@@ -98,8 +167,14 @@ doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
  marker = start | "<!" | (- end)
   chunk = < (!marker .)* > { text }
 
-   part = filter | comment | tag | chunk
-   body = part:p body:b { "#{p}#{b}" }
+rclose = "->"
+  ruby = "<-" < (!rclose .)* > rclose { code(text, false) }
+
+pclose = "=>"
+  puby = "<=" < (!pclose .)* > pclose { code(text) }
+
+   part = ruby | puby| filter | comment | tag | chunk
+   body = part:p body:b { join(p,b) }
         | part
 
     key = name
@@ -137,18 +212,18 @@ selects = select:s selects:t { [s] + t }
 end_filter(n) = bs* < /[a-zA-Z]+/ > &{ n == text } ":>"
 
 filter = "<:" name:n bs* < (!end_filter(n) .)* > end_filter(n)
-         { Dang.run_filter(n, text) }
+         { Filter.new(n, text) }
 
     tag = start:l slash { "<#{l} />" }
         | start:l attrs:a slash
           { "<#{l} #{attrs(a)} />" }
         | start:l selects:t attrs:a pts body:b pts:es end:r
-          { "<#{l} #{attrs(a,t)}>#{b}#{es}</#{r}>" }
+          { joinm "<#{l} #{attrs(a,t)}>",b,es,"</#{r}>" }
         | start:l attrs:a pts body:b pts:es end:r
-          { "<#{l} #{attrs(a)}>#{b}#{es}</#{r}>" }
+          { joinm "<#{l} #{attrs(a)}>", b, es, "</#{r}>" }
         | start:l selects:t pts:s body:b pts:es end:r
-          { "<#{l} #{attrs(t)}>#{s}#{b}#{es}</#{r}>" }
+          { joinm "<#{l} #{attrs(t)}>",s, b, es, "</#{r}>" }
         | start:l pts:s body:b pts:es end:r
-          { "<#{l}>#{s}#{b}#{es}</#{r}>" }
+          { joinm "<#{l}>", s, b, es, "</#{r}>" }
 
-  root = doctype? body:b eof { @output = b }
+  root = doctype? body:b eof { @output = join(b,"") }
