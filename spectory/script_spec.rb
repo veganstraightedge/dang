@@ -29,9 +29,4 @@ _gaq.push(['_trackPageview']);
 
     Dang.it(dang).must_equal html
   end
-
-  it "skips js that looks like a closing dang tag" do
-    Dang.it("<script alert(' script>') script>").must_equal "<script>alert(' script>')</script>"
-    Dang.it('<script alert(" script>") script>').must_equal '<script>alert(" script>")</script>'
-  end
 end

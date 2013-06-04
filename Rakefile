@@ -5,7 +5,7 @@ Hoe.plugins.delete :rubyforge
 Hoe.plugin :doofus, :git, :minitest
 
 Hoe.spec "dang" do
-  developer "Shane Becker", "veganstraightedge@example.com"
+  developer "Shane Becker", "veganstraightedge@gmail.com"
 
   self.extra_rdoc_files = Dir["*.rdoc"]
   self.history_file     = "History.md"
