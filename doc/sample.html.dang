@@ -4,13 +4,13 @@
 <head
   <meta[charset=UTF-8] />
   <title The Internet Home Site of Shane Becker <= @title => title>
-  <script[src=/javascripts/html5shiv.js?1293826648] script>
-  <script[src=/javascripts/jquery.js?1293826648] script>
-  <script[src=/javascripts/paging_keys.js?1293826648] script>
+
+
+
   <link[href=/stylesheets/reset.css?1293826648][media=screen][rel=stylesheet] />
   <link[href=/stylesheets/application.css?1293826648][media=screen][rel=stylesheet] />
   <link[href=/feed][rel=alternate][title=I Am Shane Becker][type=application/atom+xml] />
-  <link#short_url[href=http://sbb.me][rel=shorturl][type=text/html] />
+
   <meta[name=csrf-param][content=authenticity_token] />
   <meta[name=csrf-token][content=wPLyoaxee/y1v+3RUGYzcZqH1fbU526Nf7qYYoJakaY=] />
 
@@ -34,7 +34,7 @@ head>
 
   <ol.hfeed
 
-    <- @items.each do |item| ->
+    <- ["thing one", "thing two", "dinosaur"].each do |item| ->
     <li <= item => to show non/printing ruby li>
     <- end ->
 
@@ -47,7 +47,7 @@ head>
             /cc
             <a.at_username[rel=external][href=http://twitter.com/tjnelsonjr] @tjnelsonjr a>
           h1>
-        article>
+        header>
 
         <footer
           <h1.vcard
@@ -71,10 +71,10 @@ head>
               <th <label.short_url[for=short_url_status_1191] Short URL label> th>
               <th <label.long_url[for=long_url_status_1191]   Long URL  label> th>
             tr>
-            <tr
-              <td <input#short_url_status_1191.short_url[name=name_url][type=url][value=http://sbb.me/s4AA4] /> td>
-              <td <input#long_url_status_1191.long_url[name=long_url][type=url][value=http://iamshane.com/statuses/2011/2/5/4] /> td>
-            tr>
+
+
+
+
           table> <! .urls !>
 
           <h3.redistribution
@@ -113,13 +113,13 @@ head>
 
           <table.urls
             <tr
-              <th label.short_url[for=short_url_status_800] Short URL label> th>
-              <th label.long_url[for=long_url_status_800    Long URL  label> th>
+              <th <label.short_url[for=short_url_status_800] Short URL label> th>
+              <th <label.long_url[for=long_url_status_800]   Long URL  label> th>
             tr>
-            <tr
-              <td <input#short_url_status_800.short_url[name=name_url][type=url][value="http://sbb.me/s4AA3] /> td>
-              <td <input#long_url_status_800.long_url[name=long_url][type=url][value="http://iamshane.com/statuses/2011/2/5/3] /> td>
-            tr>
+
+
+
+
           table> <! .urls !>
 
           <h3.redistribution
