@@ -21,6 +21,10 @@ describe "tags" do
     Dang.it("<img />").must_equal "<img />"
   end
 
+  it "transforms DANG self closing with no attributes tag to HTML" do
+    Dang.it("<img#id />").must_equal "<img id='id' />"
+  end
+
   it "transforms DANG tags with an attribute and an explicit closer" do
     Dang.it("<a[href=/] Home a>").must_equal "<a href='/'>Home</a>"
   end
