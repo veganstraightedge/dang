@@ -8,7 +8,7 @@ Another dang templating language.
 
 ## Build Status
 
-[setting up Travis CI]
+[![Build Status](https://travis-ci.org/veganstraightedge/dang.png?branch=master)](https://travis-ci.org/veganstraightedge/dang)
 
 ## Features
 
