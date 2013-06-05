@@ -81,6 +81,12 @@ If you find bugs, have feature requests or questions, please
 
 ## License
 
-**PUBLIC DOMAIN**.
-Your heart is as free as the air you breathe.
+**PUBLIC DOMAIN**
+
+Your heart is as free as the air you breathe. <br>
 The ground you stand on is liberated territory.
+
+In legal text, Homesteading is dedicated to the public domain
+using Creative Commons -- CC0 1.0 Universal.
+
+[http://creativecommons.org/publicdomain/zero/1.0](http://creativecommons.org/publicdomain/zero/1.0 "Creative Commons &mdash; CC0 1.0 Universal")
