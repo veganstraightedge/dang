@@ -7,7 +7,7 @@ to_eval = nil
 path = nil
 
 opt = OptionParser.new do |o|
-  o.on "-e STR", "Evaluate the string as DANG" do |s|
+  o.on "-e STR", "Evaluate the string as Dang" do |s|
     to_eval = s
   end
 end

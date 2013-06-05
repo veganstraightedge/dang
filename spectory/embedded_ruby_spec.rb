@@ -16,7 +16,7 @@ describe "embedded ruby" do
     Dang.it(dang).must_equal html
   end
 
-  it "transforms DANG, printing Ruby and non-printing Ruby" do
+  it "transforms Dang, printing Ruby and non-printing Ruby" do
     dang = "<ul <- 5.times do |i| -><li <= i => li><- end -> ul>"
     html = "<ul><li>0</li><li>1</li><li>2</li><li>3</li><li>4</li></ul>"
     Dang.it(dang).must_equal html

@@ -1,7 +1,7 @@
 require "spectory/helper"
 
 describe "attributes" do
-  it "transforms DANG tag[attr=value] into HTML tag with an attribute and value" do
+  it "transforms Dang tag[attr=value] into HTML tag with an attribute and value" do
     Dang.it("<time[datetime=1979-09-18] a while ago time>").must_equal "<time datetime='1979-09-18'>a while ago</time>"
   end
 

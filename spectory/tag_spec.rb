@@ -1,43 +1,43 @@
 require "spectory/helper"
 
 describe "tags" do
-  it "transforms DANG tag to HTML tag with no content" do
+  it "transforms Dang tag to HTML tag with no content" do
     Dang.it("<b b>").must_equal "<b></b>"
   end
 
-  it "transforms DANG tag to HTML tag" do
+  it "transforms Dang tag to HTML tag" do
     Dang.it("<b BOLD b>").must_equal "<b>BOLD</b>"
   end
 
-  it "transforms DANG self closing tag to self closing HTML tag" do
+  it "transforms Dang self closing tag to self closing HTML tag" do
     Dang.it("<img[src=foo.png] />").must_equal "<img src='foo.png' />"
   end
 
-  it "transforms DANG self closing tag with multiple attributes to HTML" do
+  it "transforms Dang self closing tag with multiple attributes to HTML" do
     Dang.it("<img[src=foo.png][alt=rock] />").must_equal "<img src='foo.png' alt='rock' />"
   end
 
-  it "transforms DANG self closing with no attributes tag to HTML" do
+  it "transforms Dang self closing with no attributes tag to HTML" do
     Dang.it("<img />").must_equal "<img />"
   end
 
-  it "transforms DANG self closing with an ID tag to HTML" do
+  it "transforms Dang self closing with an ID tag to HTML" do
     Dang.it("<img#id />").must_equal "<img id='id' />"
   end
 
-  it "transforms DANG tags with an attribute and an explicit closer" do
+  it "transforms Dang tags with an attribute and an explicit closer" do
     Dang.it("<a[href=/] Home a>").must_equal "<a href='/'>Home</a>"
   end
 
-  it "transforms DANG tags nested inline to inline nested HTML tags" do
+  it "transforms Dang tags nested inline to inline nested HTML tags" do
     Dang.it("<h1 <a[href=/] Home a> h1>").must_equal "<h1><a href='/'>Home</a></h1>"
   end
 
-  it "transforms DANG tags nested inline to inline nested HTML tags wrapped in text" do
+  it "transforms Dang tags nested inline to inline nested HTML tags wrapped in text" do
     Dang.it("<h1 STUFF <a[href=/] Home a> MORE STUFF h1>").must_equal "<h1>STUFF <a href='/'>Home</a> MORE STUFF</h1>"
   end
 
-  it "transforms DANG tags nested multiline to multiline nested HTML tags" do
+  it "transforms Dang tags nested multiline to multiline nested HTML tags" do
     dang = "
 <header
   <hgroup

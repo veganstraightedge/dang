@@ -1,11 +1,11 @@
 require "spectory/helper"
 
 describe "comments" do
-  it "transforms DANG <! comment !> comments into html comments" do
+  it "transforms Dang <! comment !> comments into html comments" do
     Dang.it("<! comment !>").must_equal "<!-- comment -->"
   end
 
-  it "transforms multiline DANG <! comment !> comments into multiline html comments" do
+  it "transforms multiline Dang <! comment !> comments into multiline html comments" do
     Dang.it("<!
     comment
     !>").must_equal "<!--

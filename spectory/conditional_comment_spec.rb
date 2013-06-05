@@ -8,7 +8,7 @@ require "spectory/helper"
 # <![endif]-->
 
 describe "conditional comments" do
-  it "transforms DANG conditional comment start into HTML conditional comment start" do
+  it "transforms Dang conditional comment start into HTML conditional comment start" do
     Dang.it("<! [if lt  IE 6] !>").must_equal "<!--[if lt  IE 6]>"
     Dang.it("<! [if lte IE 6] !>").must_equal "<!--[if lte IE 6]>"
     Dang.it("<! [if gt  IE 6] !>").must_equal "<!--[if gt  IE 6]>"
@@ -25,11 +25,11 @@ describe "conditional comments" do
     Dang.it("<! [if IE 6] !>").must_equal     "<!--[if IE 6]>"
   end
 
-  it "transforms DANG conditional comment closers" do
+  it "transforms Dang conditional comment closers" do
     Dang.it("<! [endif] !>").must_equal "<![endif]-->"
   end
 
-  it "transforms DANG conditional comment closers with whitespace" do
+  it "transforms Dang conditional comment closers with whitespace" do
     Dang.it("<!      [endif]    !>").must_equal "<![endif]-->"
   end
 
@@ -38,15 +38,15 @@ describe "conditional comments" do
     Dang.it("<! [if (IE 6)|(IE 7)] !>").must_equal "<!--[if (IE 6)|(IE 7)]>"
   end
 
-  it "transforms DANG conditional comment closers with leading content" do
+  it "transforms Dang conditional comment closers with leading content" do
     Dang.it("xyz <! [endif] !>").must_equal "xyz <![endif]-->"
   end
 
-  it "transforms DANG conditional comment closers with directly leading content" do
+  it "transforms Dang conditional comment closers with directly leading content" do
     Dang.it("xyz<! [endif] !>").must_equal "xyz<![endif]-->"
   end
 
-  it "transforms one line DANG conditional comments" do
+  it "transforms one line Dang conditional comments" do
     Dang.it("<! [if IE] !>...<! [endif] !>").must_equal "<!--[if IE]>...<![endif]-->"
   end
 
