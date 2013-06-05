@@ -6,6 +6,10 @@ https://github.com/veganstraightedge/dang
 
 Another dang templating language.
 
+## Build Status
+
+[setting up Travis CI]
+
 ## Features
 
 * CSS selectors for HTML tags
