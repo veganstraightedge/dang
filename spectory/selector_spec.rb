@@ -5,6 +5,10 @@ describe "selectors" do
     Dang.it("<div#awesome lorem and or ipsum div>").must_equal "<div id='awesome'>lorem and or ipsum</div>"
   end
 
+  it "transforms DANG self closing tag with and ID and multiple attributes to HTML" do
+    Dang.it("<link#short_url[href=http://sbb.me][rel=shorturl][type=text/html] />").must_equal "<link id='short_url' href='http://sbb.me' rel='shorturl' type='text/html' />"
+  end
+
   it "transforms DANG tag.class into HTML tag with a class" do
     Dang.it("<i.pants party i>").must_equal "<i class='pants'>party</i>"
   end

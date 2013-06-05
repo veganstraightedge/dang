@@ -13,11 +13,11 @@ describe "tags" do
     Dang.it("<img[src=foo.png] />").must_equal "<img src='foo.png' />"
   end
 
-  it "transforms DANG self closing tag to self closing HTML tag with multiple attributes" do
+  it "transforms DANG self closing tag with multiple attributes to HTML" do
     Dang.it("<img[src=foo.png][alt=rock] />").must_equal "<img src='foo.png' alt='rock' />"
   end
 
-  it "transforms DANG self closing tag to self closing HTML tag (no attributes)" do
+  it "transforms DANG self closing with no attributes tag to HTML" do
     Dang.it("<img />").must_equal "<img />"
   end
 
@@ -60,6 +60,4 @@ header>"
   it "transforms sibling root tags with significant whitespace" do
     Dang.it("<b BOLD b>              <i ME i>").must_equal "<b>BOLD</b>              <i>ME</i>"
   end
-
-  # it "multline with attrs and self closers"
 end
