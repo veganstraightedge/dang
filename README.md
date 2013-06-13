@@ -57,7 +57,9 @@ You may need to use `sudo` to install it manually.
 
 After checking out the source, run:
 
-    rake newb
+```bash
+rake newb
+```
 
 This task will install any missing dependencies, run the tests/specs, and generate the RDoc.
 
