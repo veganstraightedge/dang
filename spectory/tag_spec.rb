@@ -17,12 +17,16 @@ describe "tags" do
     Dang.it("<img[src=foo.png][alt=rock] />").must_equal "<img src='foo.png' alt='rock' />"
   end
 
-  it "transforms Dang self closing with no attributes tag to HTML" do
+  it "transforms Dang self closing tag with no attributes to HTML" do
     Dang.it("<img />").must_equal "<img />"
   end
 
-  it "transforms Dang self closing with an ID tag to HTML" do
+  it "transforms Dang self closing tag with an ID to HTML" do
     Dang.it("<img#id />").must_equal "<img id='id' />"
+  end
+
+  it "transforms Dang empty script tag to HTML" do
+    Dang.it("<script[src=/javascripts/jquery.js?1293826648] script>").must_equal "<script src='/javascripts/jquery.js?1293826648'></script>"
   end
 
   it "transforms Dang tags with an attribute and an explicit closer" do
