@@ -31,7 +31,8 @@ Another dang templating language.
 
 * [rake](https://github.com/jimweirich/rake)
 * [kpeg](https://github.com/evanphx/kpeg)
-* [hoe](https://github.com/seattlerb/hoe/)
+* [hoe](https://github.com/seattlerb/hoe)
+* [minitest](https://github.com/seattlerb/minitest)
 
 ## Installation
 
@@ -58,7 +59,7 @@ You may need to use `sudo` to install it manually.
 After checking out the source, run:
 
 ```bash
-rake newb
+bundle
 ```
 
 This task will install any missing dependencies, run the tests/specs, and generate the RDoc.
