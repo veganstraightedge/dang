@@ -25,5 +25,5 @@ task :spec do
     require path
   end
 
-  MiniTest::Unit.autorun
+  Minitest.autorun
 end
