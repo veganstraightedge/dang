@@ -4,9 +4,9 @@
 <head
   <meta[charset=UTF-8] />
   <title The Internet Home Site of Shane Becker <= @title => title>
-
-
-
+  <script[src=/javascripts/html5shiv.js?1293826648] script>
+  <script[src=/javascripts/jquery.js?1293826648] script>
+  <script[src=/javascripts/paging_keys.js?1293826648] script>
   <link[href=/stylesheets/reset.css?1293826648][media=screen][rel=stylesheet] />
   <link[href=/stylesheets/application.css?1293826648][media=screen][rel=stylesheet] />
   <link[href=/feed][rel=alternate][title=I Am Shane Becker][type=application/atom+xml] />
