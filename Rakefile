@@ -17,6 +17,7 @@ task :parser do
 end
 
 $:.unshift "."
+$:.unshift "./lib"
 
 task :default => :spec
 

@@ -3,7 +3,7 @@ require 'stringio'
 require 'rubygems'
 require 'kpeg'
 
-# require 'dang/parser'
+require 'dang/parser'
 
 class Dang
   VERSION = '0.1.0'
@@ -38,6 +38,3 @@ class Dang
   # A default filter.
   register_filter "raw", proc { |str| str }
 end
-
-parser = File.expand_path("../parser.kpeg", __FILE__)
-KPeg.load parser, "Dang::Parser"
