@@ -199,7 +199,7 @@ comment = "<!" space+ < "[" space* cc_if (!"]" .)* "]" > space+ "!>"
           { "<!--#{text}>" }
         |  "<!" space+ < "[" space* cc_end (!"]" .)* "]" > space+ "!>"
           { "<!#{text}-->" }
-        | "<!" < /[^!]*/ > "!>"
+        | "<!" < (!"!>" .)*  > "!>"
           { "<!--#{text}-->" }
 
  simple = /[a-zA-Z0-9_\-]+/
@@ -215,8 +215,13 @@ filter = "<:" name:n bs* < (!end_filter(n) .)* > end_filter(n)
          { Filter.new(n, text) }
 
     tag = start:l slash { "<#{l} />" }
+        | start:l space+ end:r { "<#{l}></#{r}>" }
         | start:l attrs:a slash
           { "<#{l} #{attrs(a)} />" }
+        | start:l selects:t slash
+          { "<#{l} #{attrs(t)} />" }
+        | start:l selects:t attrs:a slash
+          { "<#{l} #{attrs(t,a)} />" }
         | start:l selects:t attrs:a pts body:b pts:es end:r
           { joinm "<#{l} #{attrs(a,t)}>",b,es,"</#{r}>" }
         | start:l attrs:a pts body:b pts:es end:r
