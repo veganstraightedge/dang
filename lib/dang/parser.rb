@@ -2075,7 +2075,7 @@ class Dang::Parser
     return _tmp
   end
 
-  # tag = (start:l slash { "<#{l} />" } | start:l space+ end:r { "<#{l}></#{r}>" } | start:l attrs:a slash { "<#{l} #{attrs(a)} />" } | start:l selects:t slash { "<#{l} #{attrs(t)} />" } | start:l selects:t attrs:a slash { "<#{l} #{attrs(t,a)} />" } | start:l selects:t attrs:a pts body:b pts:es end:r { joinm "<#{l} #{attrs(a,t)}>",b,es,"</#{r}>" } | start:l attrs:a pts body:b pts:es end:r { joinm "<#{l} #{attrs(a)}>", b, es, "</#{r}>" } | start:l selects:t pts:s body:b pts:es end:r { joinm "<#{l} #{attrs(t)}>",s, b, es, "</#{r}>" } | start:l pts:s body:b pts:es end:r { joinm "<#{l}>", s, b, es, "</#{r}>" })
+  # tag = (start:l slash { "<#{l} />" } | start:l space+ end:r { "<#{l}></#{r}>" } | start:l attrs:a slash { "<#{l} #{attrs(a)} />" } | start:l selects:t slash { "<#{l} #{attrs(t)} />" } | start:l selects:t attrs:a slash { "<#{l} #{attrs(t,a)} />" } | start:l attrs:a space+ end:r { "<#{l} #{attrs(a)}></#{r}>" } | start:l selects:t space+ end:r { "<#{l} #{attrs(t)}></#{r}>" } | start:l selects:t attrs:a space+ end:r { "<#{l} #{attrs(t,a)}></#{r}>" } | start:l selects:t attrs:a pts body:b pts:es end:r { joinm "<#{l} #{attrs(a,t)}>",b,es,"</#{r}>" } | start:l attrs:a pts body:b pts:es end:r { joinm "<#{l} #{attrs(a)}>", b, es, "</#{r}>" } | start:l selects:t pts:s body:b pts:es end:r { joinm "<#{l} #{attrs(t)}>",s, b, es, "</#{r}>" } | start:l pts:s body:b pts:es end:r { joinm "<#{l}>", s, b, es, "</#{r}>" })
   def _tag
 
     _save = self.pos
@@ -2249,31 +2249,23 @@ class Dang::Parser
           self.pos = _save7
           break
         end
-        _tmp = apply(:_selects)
-        t = @result
-        unless _tmp
-          self.pos = _save7
-          break
-        end
         _tmp = apply(:_attrs)
         a = @result
         unless _tmp
           self.pos = _save7
           break
         end
-        _tmp = apply(:_pts)
-        unless _tmp
-          self.pos = _save7
-          break
+        _save8 = self.pos
+        _tmp = apply(:_space)
+        if _tmp
+          while true
+            _tmp = apply(:_space)
+            break unless _tmp
+          end
+          _tmp = true
+        else
+          self.pos = _save8
         end
-        _tmp = apply(:_body)
-        b = @result
-        unless _tmp
-          self.pos = _save7
-          break
-        end
-        _tmp = apply(:_pts)
-        es = @result
         unless _tmp
           self.pos = _save7
           break
@@ -2284,58 +2276,10 @@ class Dang::Parser
           self.pos = _save7
           break
         end
-        @result = begin;  joinm "<#{l} #{attrs(a,t)}>",b,es,"</#{r}>" ; end
+        @result = begin;  "<#{l} #{attrs(a)}></#{r}>" ; end
         _tmp = true
         unless _tmp
           self.pos = _save7
-        end
-        break
-      end # end sequence
-
-      break if _tmp
-      self.pos = _save
-
-      _save8 = self.pos
-      while true # sequence
-        _tmp = apply(:_start)
-        l = @result
-        unless _tmp
-          self.pos = _save8
-          break
-        end
-        _tmp = apply(:_attrs)
-        a = @result
-        unless _tmp
-          self.pos = _save8
-          break
-        end
-        _tmp = apply(:_pts)
-        unless _tmp
-          self.pos = _save8
-          break
-        end
-        _tmp = apply(:_body)
-        b = @result
-        unless _tmp
-          self.pos = _save8
-          break
-        end
-        _tmp = apply(:_pts)
-        es = @result
-        unless _tmp
-          self.pos = _save8
-          break
-        end
-        _tmp = apply(:_end)
-        r = @result
-        unless _tmp
-          self.pos = _save8
-          break
-        end
-        @result = begin;  joinm "<#{l} #{attrs(a)}>", b, es, "</#{r}>" ; end
-        _tmp = true
-        unless _tmp
-          self.pos = _save8
         end
         break
       end # end sequence
@@ -2357,20 +2301,17 @@ class Dang::Parser
           self.pos = _save9
           break
         end
-        _tmp = apply(:_pts)
-        s = @result
-        unless _tmp
-          self.pos = _save9
-          break
+        _save10 = self.pos
+        _tmp = apply(:_space)
+        if _tmp
+          while true
+            _tmp = apply(:_space)
+            break unless _tmp
+          end
+          _tmp = true
+        else
+          self.pos = _save10
         end
-        _tmp = apply(:_body)
-        b = @result
-        unless _tmp
-          self.pos = _save9
-          break
-        end
-        _tmp = apply(:_pts)
-        es = @result
         unless _tmp
           self.pos = _save9
           break
@@ -2381,7 +2322,7 @@ class Dang::Parser
           self.pos = _save9
           break
         end
-        @result = begin;  joinm "<#{l} #{attrs(t)}>",s, b, es, "</#{r}>" ; end
+        @result = begin;  "<#{l} #{attrs(t)}></#{r}>" ; end
         _tmp = true
         unless _tmp
           self.pos = _save9
@@ -2392,42 +2333,245 @@ class Dang::Parser
       break if _tmp
       self.pos = _save
 
-      _save10 = self.pos
+      _save11 = self.pos
       while true # sequence
         _tmp = apply(:_start)
         l = @result
         unless _tmp
-          self.pos = _save10
+          self.pos = _save11
           break
         end
-        _tmp = apply(:_pts)
-        s = @result
+        _tmp = apply(:_selects)
+        t = @result
         unless _tmp
-          self.pos = _save10
+          self.pos = _save11
           break
         end
-        _tmp = apply(:_body)
-        b = @result
+        _tmp = apply(:_attrs)
+        a = @result
         unless _tmp
-          self.pos = _save10
+          self.pos = _save11
           break
         end
-        _tmp = apply(:_pts)
-        es = @result
+        _save12 = self.pos
+        _tmp = apply(:_space)
+        if _tmp
+          while true
+            _tmp = apply(:_space)
+            break unless _tmp
+          end
+          _tmp = true
+        else
+          self.pos = _save12
+        end
         unless _tmp
-          self.pos = _save10
+          self.pos = _save11
           break
         end
         _tmp = apply(:_end)
         r = @result
         unless _tmp
-          self.pos = _save10
+          self.pos = _save11
+          break
+        end
+        @result = begin;  "<#{l} #{attrs(t,a)}></#{r}>" ; end
+        _tmp = true
+        unless _tmp
+          self.pos = _save11
+        end
+        break
+      end # end sequence
+
+      break if _tmp
+      self.pos = _save
+
+      _save13 = self.pos
+      while true # sequence
+        _tmp = apply(:_start)
+        l = @result
+        unless _tmp
+          self.pos = _save13
+          break
+        end
+        _tmp = apply(:_selects)
+        t = @result
+        unless _tmp
+          self.pos = _save13
+          break
+        end
+        _tmp = apply(:_attrs)
+        a = @result
+        unless _tmp
+          self.pos = _save13
+          break
+        end
+        _tmp = apply(:_pts)
+        unless _tmp
+          self.pos = _save13
+          break
+        end
+        _tmp = apply(:_body)
+        b = @result
+        unless _tmp
+          self.pos = _save13
+          break
+        end
+        _tmp = apply(:_pts)
+        es = @result
+        unless _tmp
+          self.pos = _save13
+          break
+        end
+        _tmp = apply(:_end)
+        r = @result
+        unless _tmp
+          self.pos = _save13
+          break
+        end
+        @result = begin;  joinm "<#{l} #{attrs(a,t)}>",b,es,"</#{r}>" ; end
+        _tmp = true
+        unless _tmp
+          self.pos = _save13
+        end
+        break
+      end # end sequence
+
+      break if _tmp
+      self.pos = _save
+
+      _save14 = self.pos
+      while true # sequence
+        _tmp = apply(:_start)
+        l = @result
+        unless _tmp
+          self.pos = _save14
+          break
+        end
+        _tmp = apply(:_attrs)
+        a = @result
+        unless _tmp
+          self.pos = _save14
+          break
+        end
+        _tmp = apply(:_pts)
+        unless _tmp
+          self.pos = _save14
+          break
+        end
+        _tmp = apply(:_body)
+        b = @result
+        unless _tmp
+          self.pos = _save14
+          break
+        end
+        _tmp = apply(:_pts)
+        es = @result
+        unless _tmp
+          self.pos = _save14
+          break
+        end
+        _tmp = apply(:_end)
+        r = @result
+        unless _tmp
+          self.pos = _save14
+          break
+        end
+        @result = begin;  joinm "<#{l} #{attrs(a)}>", b, es, "</#{r}>" ; end
+        _tmp = true
+        unless _tmp
+          self.pos = _save14
+        end
+        break
+      end # end sequence
+
+      break if _tmp
+      self.pos = _save
+
+      _save15 = self.pos
+      while true # sequence
+        _tmp = apply(:_start)
+        l = @result
+        unless _tmp
+          self.pos = _save15
+          break
+        end
+        _tmp = apply(:_selects)
+        t = @result
+        unless _tmp
+          self.pos = _save15
+          break
+        end
+        _tmp = apply(:_pts)
+        s = @result
+        unless _tmp
+          self.pos = _save15
+          break
+        end
+        _tmp = apply(:_body)
+        b = @result
+        unless _tmp
+          self.pos = _save15
+          break
+        end
+        _tmp = apply(:_pts)
+        es = @result
+        unless _tmp
+          self.pos = _save15
+          break
+        end
+        _tmp = apply(:_end)
+        r = @result
+        unless _tmp
+          self.pos = _save15
+          break
+        end
+        @result = begin;  joinm "<#{l} #{attrs(t)}>",s, b, es, "</#{r}>" ; end
+        _tmp = true
+        unless _tmp
+          self.pos = _save15
+        end
+        break
+      end # end sequence
+
+      break if _tmp
+      self.pos = _save
+
+      _save16 = self.pos
+      while true # sequence
+        _tmp = apply(:_start)
+        l = @result
+        unless _tmp
+          self.pos = _save16
+          break
+        end
+        _tmp = apply(:_pts)
+        s = @result
+        unless _tmp
+          self.pos = _save16
+          break
+        end
+        _tmp = apply(:_body)
+        b = @result
+        unless _tmp
+          self.pos = _save16
+          break
+        end
+        _tmp = apply(:_pts)
+        es = @result
+        unless _tmp
+          self.pos = _save16
+          break
+        end
+        _tmp = apply(:_end)
+        r = @result
+        unless _tmp
+          self.pos = _save16
           break
         end
         @result = begin;  joinm "<#{l}>", s, b, es, "</#{r}>" ; end
         _tmp = true
         unless _tmp
-          self.pos = _save10
+          self.pos = _save16
         end
         break
       end # end sequence
@@ -2514,7 +2658,7 @@ class Dang::Parser
   Rules[:_selects] = rule_info("selects", "(select:s selects:t { [s] + t } | select:s { [s] })")
   Rules[:_end_filter] = rule_info("end_filter", "bs* < /[a-zA-Z]+/ > &{ n == text } \":>\"")
   Rules[:_filter] = rule_info("filter", "\"<:\" name:n bs* < (!end_filter(n) .)* > end_filter(n) { Filter.new(n, text) }")
-  Rules[:_tag] = rule_info("tag", "(start:l slash { \"<\#{l} />\" } | start:l space+ end:r { \"<\#{l}></\#{r}>\" } | start:l attrs:a slash { \"<\#{l} \#{attrs(a)} />\" } | start:l selects:t slash { \"<\#{l} \#{attrs(t)} />\" } | start:l selects:t attrs:a slash { \"<\#{l} \#{attrs(t,a)} />\" } | start:l selects:t attrs:a pts body:b pts:es end:r { joinm \"<\#{l} \#{attrs(a,t)}>\",b,es,\"</\#{r}>\" } | start:l attrs:a pts body:b pts:es end:r { joinm \"<\#{l} \#{attrs(a)}>\", b, es, \"</\#{r}>\" } | start:l selects:t pts:s body:b pts:es end:r { joinm \"<\#{l} \#{attrs(t)}>\",s, b, es, \"</\#{r}>\" } | start:l pts:s body:b pts:es end:r { joinm \"<\#{l}>\", s, b, es, \"</\#{r}>\" })")
+  Rules[:_tag] = rule_info("tag", "(start:l slash { \"<\#{l} />\" } | start:l space+ end:r { \"<\#{l}></\#{r}>\" } | start:l attrs:a slash { \"<\#{l} \#{attrs(a)} />\" } | start:l selects:t slash { \"<\#{l} \#{attrs(t)} />\" } | start:l selects:t attrs:a slash { \"<\#{l} \#{attrs(t,a)} />\" } | start:l attrs:a space+ end:r { \"<\#{l} \#{attrs(a)}></\#{r}>\" } | start:l selects:t space+ end:r { \"<\#{l} \#{attrs(t)}></\#{r}>\" } | start:l selects:t attrs:a space+ end:r { \"<\#{l} \#{attrs(t,a)}></\#{r}>\" } | start:l selects:t attrs:a pts body:b pts:es end:r { joinm \"<\#{l} \#{attrs(a,t)}>\",b,es,\"</\#{r}>\" } | start:l attrs:a pts body:b pts:es end:r { joinm \"<\#{l} \#{attrs(a)}>\", b, es, \"</\#{r}>\" } | start:l selects:t pts:s body:b pts:es end:r { joinm \"<\#{l} \#{attrs(t)}>\",s, b, es, \"</\#{r}>\" } | start:l pts:s body:b pts:es end:r { joinm \"<\#{l}>\", s, b, es, \"</\#{r}>\" })")
   Rules[:_root] = rule_info("root", "doctype? body:b eof { @output = join(b,\"\") }")
   # :startdoc:
 end

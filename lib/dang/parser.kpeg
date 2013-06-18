@@ -222,6 +222,12 @@ filter = "<:" name:n bs* < (!end_filter(n) .)* > end_filter(n)
           { "<#{l} #{attrs(t)} />" }
         | start:l selects:t attrs:a slash
           { "<#{l} #{attrs(t,a)} />" }
+        | start:l attrs:a space+ end:r
+          { "<#{l} #{attrs(a)}></#{r}>" }
+        | start:l selects:t space+ end:r
+          { "<#{l} #{attrs(t)}></#{r}>" }
+        | start:l selects:t attrs:a space+ end:r
+          { "<#{l} #{attrs(t,a)}></#{r}>" }
         | start:l selects:t attrs:a pts body:b pts:es end:r
           { joinm "<#{l} #{attrs(a,t)}>",b,es,"</#{r}>" }
         | start:l attrs:a pts body:b pts:es end:r
