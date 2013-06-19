@@ -2,7 +2,7 @@ require "rubygems"
 require "hoe"
 
 Hoe.plugins.delete :rubyforge
-Hoe.plugin :doofus, :git, :minitest
+Hoe.plugin :doofus, :git
 
 Hoe.spec "dang" do
   developer "Shane Becker", "veganstraightedge@gmail.com"

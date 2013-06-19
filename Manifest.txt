@@ -1,10 +1,13 @@
 .autotest
+Gemfile
+Gemfile.lock
 History.md
 Manifest.txt
 README.md
 Rakefile
+TODO.md
 bin/dang
 lib/dang.rb
 lib/dang/dang.rb
-lib/dang/parser.rb
 lib/dang/parser.kpeg
+lib/dang/parser.rb
