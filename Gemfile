@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-# for development
+# for developing
 gem "rake"
 gem "hoe"
 gem "kpeg"
