@@ -1,7 +1,6 @@
 require 'stringio'
 
 require 'rubygems'
-require 'kpeg'
 
 require 'dang/parser'
 
