@@ -18,7 +18,7 @@
 2. Command Line Interface
 
    * `dang path/to/file.html.dang`
-   * Command line interface option:`dang -e "<i super duper i>"`
+   * Option: `dang -e "<i super duper i>"`
 
 3. House Keeping
 

@@ -14,18 +14,35 @@ Another dang templating language.
 
 * CSS selectors for HTML tags
 * Not as noisy syntax than ERB
-* Not quite as elegant as [HAML](http://haml-lang.com)
-* No %s in the codez
+* Not quite as elegant as [HAML](http://haml.info)
+* No %s in your code
 * More closers than HAML
 * A lot is based on / inspired by [HAML](http://haml.info)
 
 ## Synopsis
 
-    <b BOLD b> => <b>BOLD</b>
+* **Syntax**: `<tag content tag>`
+* **Syntax**: `<tag#id content tag>`
+* **Syntax**: `<tag#class content tag>`
+* **Syntax**: `<tag[attr=value] content tag>`
+* **Syntax**: `<! html comment !>`
+* **Syntax**: Embedded non-printing ruby (<- if logged_in? ->)
+* **Syntax**: Embedded printing ruby (<= @user.name =>)
+* **Syntax**: `!!!` doctype shorthand inspired by HAML
+
+## Synopsis
+
+From the command line, transform a file of dang into html:
+
+`dang path/to/file.html.dang`
+
+Or just a snippet of dang into html:
+
+`dang -e "<i snippet i>"`
 
 ## Current Version
 
-0.1.0
+1.0.0.rc2
 
 ## Requirements
 
