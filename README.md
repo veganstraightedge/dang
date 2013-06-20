@@ -14,10 +14,10 @@ Another dang templating language.
 
 * CSS selectors for HTML tags
 * Not as noisy syntax than ERB
-* Not quite as elegant as [HAML](http://haml.info)
+* Not quite as elegant as [Haml](http://haml.info)
 * No %s in your code
-* More closers than HAML
-* A lot is based on / inspired by [HAML](http://haml.info)
+* More closers than Haml
+* A lot is based on / inspired by [Haml](http://haml.info)
 
 ## Synopsis
 
@@ -28,7 +28,7 @@ Another dang templating language.
 * **Syntax**: `<! html comment !>`
 * **Syntax**: Embedded non-printing ruby (<- if logged_in? ->)
 * **Syntax**: Embedded printing ruby (<= @user.name =>)
-* **Syntax**: `!!!` doctype shorthand inspired by HAML
+* **Syntax**: `!!!` doctype shorthand inspired by Haml
 
 ## Usage
 
