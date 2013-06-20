@@ -2,33 +2,55 @@
 
 https://github.com/veganstraightedge/dang
 
+
 ## Description
 
-Another dang templating language.
+Dang is a Ruby templating language
+It uses angle brackets and CSS syntax.
+Somewhere between ERB and Haml.
+
+### Examples:
+
+* `<b a simple bold tag b>`
+* `<div#id div with an id div>`
+* `<p.class lorem ipsum p>`
+* `<a[href=/] Home a>`
+* `<! html comment !>`
+* `<- non_printing(ruby) ->`
+* `<= printing(ruby) =>`
+
+### Usage:
+
+* `dang -e "<i dang snippet i>"`
+* `dang path/to/file.html.dang`
+
 
 ## Build Status
 
 [![Build Status](https://travis-ci.org/veganstraightedge/dang.png?branch=master)](https://travis-ci.org/veganstraightedge/dang)
 
+
 ## Features
 
-* CSS selectors for HTML tags
+* CSS selectors for HTML tags + attributes
 * Not as noisy syntax than ERB
 * Not quite as elegant as [Haml](http://haml.info)
 * No %s in your code
 * More closers than Haml
 * A lot is based on / inspired by [Haml](http://haml.info)
 
-## Synopsis
 
-* **Syntax**: `<tag content tag>`
-* **Syntax**: `<tag#id content tag>`
-* **Syntax**: `<tag#class content tag>`
-* **Syntax**: `<tag[attr=value] content tag>`
-* **Syntax**: `<! html comment !>`
-* **Syntax**: Embedded non-printing ruby (<- if logged_in? ->)
-* **Syntax**: Embedded printing ruby (<= @user.name =>)
-* **Syntax**: `!!!` doctype shorthand inspired by Haml
+## Synopsis
+### Syntax
+
+* `<tag content tag>`
+* `<tag#id content tag>`
+* `<tag#class content tag>`
+* `<tag[attr=value] content tag>`
+* `<! html comment !>`
+*  Embedded non-printing ruby (<- if logged_in? ->)
+*  Embedded printing ruby (<= @user.name =>)
+* `!!!` doctype shorthand inspired by HAML
 
 ## Usage
 
@@ -40,9 +62,11 @@ Or just a snippet of dang into html:
 
 `dang -e "<i snippet i>"`
 
+
 ## Current Version
 
 1.0.0.rc3
+
 
 ## Requirements
 
@@ -50,6 +74,7 @@ Or just a snippet of dang into html:
 * [kpeg](https://github.com/evanphx/kpeg)
 * [hoe](https://github.com/seattlerb/hoe)
 * [minitest](https://github.com/seattlerb/minitest)
+
 
 ## Installation
 
@@ -69,7 +94,8 @@ Or install it yourself as:
 gem install dang
 ```
 
-You may need to use `sudo` to install it manually.
+You may need to use`sudo` to install it manually.
+
 
 ## Developers
 
@@ -81,10 +107,12 @@ bundle
 
 This task will install any missing dependencies, run the tests/specs, and generate the RDoc.
 
+
 ## Authors
 
   * Shane Becker / [@veganstraightedge](https://github.com/veganstraightedge)
   * Evan Phoenix / [@evanphx](https://github.com/evanphx)
+
 
 ## Contributing
 
@@ -98,6 +126,7 @@ This task will install any missing dependencies, run the tests/specs, and genera
 
 If you find bugs, have feature requests or questions, please
 [file an issue](https://github.com/veganstraightedge/dang).
+
 
 ## License
 
