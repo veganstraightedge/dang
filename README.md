@@ -30,7 +30,7 @@ Another dang templating language.
 * **Syntax**: Embedded printing ruby (<= @user.name =>)
 * **Syntax**: `!!!` doctype shorthand inspired by Haml
 
-## Synopsis
+## Usage
 
 From the command line, transform a file of dang into html:
 
