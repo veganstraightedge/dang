@@ -9,21 +9,6 @@ Dang is a Ruby templating language
 It uses angle brackets and CSS syntax.
 Somewhere between ERB and Haml.
 
-### Examples:
-
-* `<b a simple bold tag b>`
-* `<div#id div with an id div>`
-* `<p.class lorem ipsum p>`
-* `<a[href=/] Home a>`
-* `<! html comment !>`
-* `<- non_printing(ruby) ->`
-* `<= printing(ruby) =>`
-
-### Usage:
-
-* `dang -e "<i dang snippet i>"`
-* `dang path/to/file.html.dang`
-
 
 ## Build Status
 
@@ -43,14 +28,15 @@ Somewhere between ERB and Haml.
 ## Synopsis
 ### Syntax
 
-* `<tag content tag>`
-* `<tag#id content tag>`
-* `<tag#class content tag>`
-* `<tag[attr=value] content tag>`
+* `<b a simple bold tag b>`
+* `<div#id div with an id div>`
+* `<p.class lorem ipsum p>`
+* `<a[href=/] Home a>`
 * `<! html comment !>`
-*  Embedded non-printing ruby (<- if logged_in? ->)
-*  Embedded printing ruby (<= @user.name =>)
+* `<- non_printing(ruby) ->`
+* `<= printing(ruby) =>`
 * `!!!` doctype shorthand inspired by HAML
+
 
 ## Usage
 
