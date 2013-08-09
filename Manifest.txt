@@ -1,4 +1,7 @@
 .autotest
+.gitignore
+.hoeignore
+.travis.yml
 Gemfile
 Gemfile.lock
 History.md
@@ -7,7 +10,9 @@ README.md
 Rakefile
 TODO.md
 bin/dang
+dang.gemspec
 lib/dang.rb
 lib/dang/dang.rb
 lib/dang/parser.kpeg
 lib/dang/parser.rb
+lib/dang/rails.rb
