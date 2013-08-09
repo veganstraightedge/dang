@@ -5,10 +5,16 @@ require 'optparse'
 
 to_eval = nil
 path = nil
+version = false
 
 opt = OptionParser.new do |o|
   o.on "-e STR", "Evaluate the string as Dang" do |s|
     to_eval = s
+  end
+
+  o.on "-v", "--version", "Print the version of Dang" do
+    puts "dang #{Dang::VERSION}, codename: #{Dang::CODENAME}"
+    version = true
   end
 end
 
@@ -20,6 +26,7 @@ if to_eval
 else
   path = ARGV.shift
   if !path
+    exit if version
     raise "Specify -e or a path to a file"
   end
   puts Dang.it(File.read(path))
