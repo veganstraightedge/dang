@@ -391,7 +391,7 @@ class Dang::Parser
     DOC_TYPES[@doctype].dup
   end
 
-  def output(env=nil)
+  def compile
     doctype = html_doctype
 
     strings = @output.flatten.map do |i|
@@ -409,9 +409,11 @@ class Dang::Parser
       end
     end
 
-    code = "_out = '';\n" + strings.join(";") + ";_out"
+    "_out = '';\n" + strings.join(";") + ";_out"
+  end
 
-    out = eval(code, env || binding).strip
+  def output(env=nil)
+    out = eval(compile, env || binding).strip
 
     if doctype.empty?
       str = out
