@@ -4,7 +4,7 @@ require 'dang'
 require 'optparse'
 
 to_eval = nil
-path = nil
+path    = nil
 version = false
 
 opt = OptionParser.new do |o|
