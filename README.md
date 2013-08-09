@@ -56,6 +56,8 @@ Or just a snippet of dang into html:
 
 ## Requirements
 
+For development:
+
 * [rake](https://github.com/jimweirich/rake)
 * [kpeg](https://github.com/evanphx/kpeg)
 * [hoe](https://github.com/seattlerb/hoe)
