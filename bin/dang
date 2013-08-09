@@ -34,7 +34,8 @@ else
   path = ARGV.shift
   if !path
     exit if version
-    raise "Specify -e or a path to a file"
+    puts opt
+    exit 1
   end
   puts Dang.it(File.read(path))
 end
