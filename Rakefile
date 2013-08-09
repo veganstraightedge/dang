@@ -3,6 +3,7 @@ require "hoe"
 
 Hoe.plugins.delete :rubyforge
 Hoe.plugin :doofus, :git
+Hoe.plugin :ignore
 
 HOE = Hoe.spec "dang" do
   developer "Shane Becker", "veganstraightedge@gmail.com"
