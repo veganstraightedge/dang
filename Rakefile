@@ -4,7 +4,7 @@ require "hoe"
 Hoe.plugins.delete :rubyforge
 Hoe.plugin :doofus, :git
 
-Hoe.spec "dang" do
+HOE = Hoe.spec "dang" do
   developer "Shane Becker", "veganstraightedge@gmail.com"
 
   self.extra_rdoc_files =  Dir["*.rdoc"]
@@ -30,3 +30,11 @@ task :spec do
 
   Minitest.autorun
 end
+
+file "#{HOE.spec.name}.gemspec" => ['Rakefile', "lib/dang/dang.rb"] do |t|
+  puts "Generating #{t.name}"
+  File.open(t.name, 'wb') { |f| f.write HOE.spec.to_ruby }
+end
+
+desc "Generate or update the standalone gemspec file for the project"
+task :gemspec => ["#{HOE.spec.name}.gemspec"]
