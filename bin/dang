@@ -8,6 +8,8 @@ path = nil
 version = false
 
 opt = OptionParser.new do |o|
+  o.banner = "Usage: dang [options] [input.dang] [output.html]"
+
   o.on "-e STR", "Evaluate the string as Dang" do |s|
     to_eval = s
   end
@@ -15,6 +17,11 @@ opt = OptionParser.new do |o|
   o.on "-v", "--version", "Print the version of Dang" do
     puts "dang #{Dang::VERSION}, codename: #{Dang::CODENAME}"
     version = true
+  end
+
+  o.on "-h", "--help", "Print, well, this" do
+    puts opt
+    exit
   end
 end
 
