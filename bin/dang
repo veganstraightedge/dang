@@ -31,11 +31,23 @@ if to_eval
   puts Dang.it(to_eval)
 
 else
-  path = ARGV.shift
-  if !path
+  input = ARGV.shift
+
+  if !input
     exit if version
     puts opt
     exit 1
   end
-  puts Dang.it(File.read(path))
+
+  data = Dang.it(File.read(input))
+
+  if output = ARGV.shift
+    File.open output, "w" do |f|
+      f.puts data
+    end
+
+    puts "Wrote HTML to '#{output}'"
+  else
+    puts data
+  end
 end
