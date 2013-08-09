@@ -392,8 +392,6 @@ class Dang::Parser
   end
 
   def compile
-    doctype = html_doctype
-
     strings = @output.flatten.map do |i|
       case i
       when Literal
@@ -414,6 +412,8 @@ class Dang::Parser
 
   def output(env=nil)
     out = eval(compile, env || binding).strip
+
+    doctype = html_doctype
 
     if doctype.empty?
       str = out
