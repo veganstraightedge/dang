@@ -391,7 +391,9 @@ class Dang::Parser
     DOC_TYPES[@doctype].dup
   end
 
-  def compile
+  def output(env=nil)
+    doctype = html_doctype
+
     strings = @output.flatten.map do |i|
       case i
       when Literal
@@ -407,13 +409,9 @@ class Dang::Parser
       end
     end
 
-    "_out = '';\n" + strings.join(";") + ";_out"
-  end
+    code = "_out = '';\n" + strings.join(";") + ";_out"
 
-  def output(env=nil)
-    out = eval(compile, env || binding).strip
-
-    doctype = html_doctype
+    out = eval(code, env || binding).strip
 
     if doctype.empty?
       str = out
@@ -860,7 +858,7 @@ class Dang::Parser
     return _tmp
   end
 
-  # marker = (start | "<!" | - end)
+  # marker = (start | "<!" | "<=" | "<-" | - end)
   def _marker
 
     _save = self.pos
@@ -869,6 +867,12 @@ class Dang::Parser
       break if _tmp
       self.pos = _save
       _tmp = match_string("<!")
+      break if _tmp
+      self.pos = _save
+      _tmp = match_string("<=")
+      break if _tmp
+      self.pos = _save
+      _tmp = match_string("<-")
       break if _tmp
       self.pos = _save
 
@@ -2638,7 +2642,7 @@ class Dang::Parser
   Rules[:_pts] = rule_info("pts", "(space+ { \"\" } | < eol bs* > { text })")
   Rules[:_end] = rule_info("end", "name:n \">\" { n }")
   Rules[:_slash] = rule_info("slash", "- \"/>\"")
-  Rules[:_marker] = rule_info("marker", "(start | \"<!\" | - end)")
+  Rules[:_marker] = rule_info("marker", "(start | \"<!\" | \"<=\" | \"<-\" | - end)")
   Rules[:_chunk] = rule_info("chunk", "< (!marker .)* > { text }")
   Rules[:_rclose] = rule_info("rclose", "\"->\"")
   Rules[:_ruby] = rule_info("ruby", "\"<-\" < (!rclose .)* > rclose { code(text, false) }")

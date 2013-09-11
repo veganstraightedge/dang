@@ -21,4 +21,13 @@ describe "embedded ruby" do
     html = "<ul><li>0</li><li>1</li><li>2</li><li>3</li><li>4</li></ul>"
     Dang.it(dang).must_equal html
   end
+
+  it "handles dang inside a p" do
+    t = Time.now
+
+    dang = "<x The time is <= Time.now => x>"
+    html = "<x>The time is #{t}</x>"
+
+    Dang.it(dang, binding).must_equal html
+  end
 end

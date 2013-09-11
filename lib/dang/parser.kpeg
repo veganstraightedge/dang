@@ -164,7 +164,7 @@ doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
     end = name:n ">" { n }
   slash = - "/>"
 
- marker = start | "<!" | (- end)
+ marker = start | "<!" | "<=" | "<-" | (- end)
   chunk = < (!marker .)* > { text }
 
 rclose = "->"

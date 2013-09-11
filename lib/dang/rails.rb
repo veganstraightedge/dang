@@ -32,8 +32,6 @@ class Dang
       # Always make sure we return a String in the default_internal
       dang.encode!
 
-      puts "== Compiling #{dang}"
-
       parser = Dang::Parser.new(dang, true)
       unless parser.parse
         io = StringIO.new
