@@ -1,8 +1,8 @@
 # History
 
-## 1.0.0 / 2013-06-19
+## 1.0.0 / 2013-09-18
 
-### Major Enhancements
+### Major Features
 
 1. Dang to html transformation
 

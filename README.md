@@ -93,7 +93,7 @@ After checking out the source, run:
 bundle
 ```
 
-This task will install any missing dependencies, run the tests/specs, and generate the RDoc.
+This will install any missing dependencies.
 
 
 ## Authors
