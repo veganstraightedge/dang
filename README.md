@@ -51,7 +51,7 @@ Or just a snippet of dang into html:
 
 ## Current Version
 
-1.0.0.rc6
+1.0.0
 
 
 ## Requirements
