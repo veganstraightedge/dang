@@ -46,7 +46,7 @@ else
       f.puts data
     end
 
-    puts "Wrote HTML to '#{output}'"
+    $stderr.puts "Wrote HTML to '#{output}'"
   else
     puts data
   end
