@@ -7,3 +7,4 @@ tmp/
 .rvmrc
 *.dat
 pkg
+Gemfile.lock
