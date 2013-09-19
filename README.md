@@ -5,7 +5,7 @@ https://github.com/veganstraightedge/dang
 
 ## Description
 
-Dang is a Ruby templating language
+Dang is a Ruby templating language.
 It uses angle brackets and CSS syntax.
 Somewhere between ERB and Haml.
 
