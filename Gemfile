@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+gemspec
+
 # for developing
 gem "rake"
 gem "hoe"
