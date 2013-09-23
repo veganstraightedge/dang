@@ -5,7 +5,6 @@ require 'optparse'
 
 to_eval = nil
 path    = nil
-version = false
 
 opt = OptionParser.new do |o|
   o.banner = "Usage: dang [options] [input.dang] [output.html]"
@@ -16,7 +15,7 @@ opt = OptionParser.new do |o|
 
   o.on "-v", "--version", "Print the version of Dang" do
     puts "dang #{Dang::VERSION}, codename: #{Dang::CODENAME}"
-    version = true
+    exit
   end
 
   o.on "-h", "--help", "Print, well, this" do
@@ -34,7 +33,6 @@ else
   input = ARGV.shift
 
   if !input
-    exit if version
     puts opt
     exit 1
   end
