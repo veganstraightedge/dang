@@ -34,9 +34,9 @@ head>
 
   <ol.hfeed
 
-    <- ["thing one", "thing two", "dinosaur"].each do |item| ->
-    <li <= item => to show non/printing ruby li>
-    <- end ->
+    <: ["thing one", "thing two", "dinosaur"].each do |item| :>
+    <li <| item |> to show non/printing ruby li>
+    <: end :>
 
     <li
       <article#status_1191.hentry.status
