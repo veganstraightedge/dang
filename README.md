@@ -33,8 +33,8 @@ Somewhere between ERB and Haml.
 * `<p.class lorem ipsum p>`
 * `<a[href=/] Home a>`
 * `<! html comment !>`
-* `<- non_printing(ruby) ->`
-* `<= printing(ruby) =>`
+* `<: non_printing(ruby) :>`
+* `<| printing(ruby) |>`
 * `!!!` doctype shorthand inspired by HAML
 
 

@@ -166,14 +166,14 @@ doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
     end = name:n ">" { n }
   slash = - "/>"
 
- marker = start | "<!" | "<=" | "<-" | (- end)
+ marker = start | "<!" | "<|" | "<:" | (- end)
   chunk = < (!marker .)* > { text }
 
-rclose = "->"
-  ruby = "<-" < (!rclose .)* > rclose { code(text, false) }
+rclose = ":>"
+  ruby = "<:" < (!rclose .)* > rclose { code(text, false) }
 
-pclose = "=>"
-  puby = "<=" < (!pclose .)* > pclose { code(text) }
+pclose = "|>"
+  puby = "<|" < (!pclose .)* > pclose { code(text) }
 
    part = ruby | puby| filter | comment | tag | chunk
    body = part:p body:b { join(p,b) }
