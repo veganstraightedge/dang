@@ -16,7 +16,7 @@ HOE = Hoe.spec "dang" do
 end
 
 task :parser do
-  sh "ruby -I../kpeg/lib ../kpeg/bin/kpeg -o lib/dang/parser.rb -f -n Dang::Parser -s lib/dang/parser.kpeg"
+  sh "kpeg -o lib/dang/parser.rb -f -n Dang::Parser -s lib/dang/parser.kpeg"
 end
 
 $:.unshift "."
