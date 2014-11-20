@@ -1,5 +1,34 @@
 # History
 
+## 2.0.0 / 2014-11-20
+
+### Major Features
+
+1. Fixed two major and obvious syntax mistakes.
+
+   `<- non-printing ruby ->` : As a syntax works great in a vaccum,
+   but not in Ruby 1.9 or higher because of the `->` stabby proc.
+   Duh. That's our bad. Sorry that we didn't catch it in our design
+   and testing.
+
+   `<= printing ruby =>` : Same goes for this. `=>` is used in hashes.
+   Double duh. Both of these should've never made it into the spec.
+
+   For 2.0, we've changed both of them to similar but different syntaxes.
+
+   * `<- non-printing ruby ->` becomes  `<: non-printing ruby :>`
+   * `<= printing ruby =>`     becomes  `<| printing ruby |>`
+
+   Our reason for using `<: :>` is because we were already using a similar
+   syntax for `filters`. `<:raw raw:>`, `<:markdown markdown:>`, etc.
+   Following this pattern, `<: :>` is the default filter and therefore
+   an alias/shorthand for `<:ruby ruby:>`.
+
+   `<| |>` was chosen for visual symmetry/balance and because pipes are
+   already used in Ruby, so they won't feel out of place in Ruby/Rals views.
+   We didn't want to introduce **another** symbol to the aesthic of views.
+
+
 ## 1.0.0 / 2013-09-18
 
 ### Major Features
