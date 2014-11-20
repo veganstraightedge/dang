@@ -51,7 +51,7 @@ Or just a snippet of dang into html:
 
 ## Current Version
 
-1.0.0
+2.0.0
 
 
 ## Requirements
@@ -82,7 +82,7 @@ Or install it yourself as:
 gem install dang
 ```
 
-You may need to use`sudo` to install it manually.
+You may need to use `sudo` to install it manually.
 
 
 ## Developers

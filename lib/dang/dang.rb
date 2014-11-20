@@ -3,8 +3,8 @@ require 'rubygems'
 require 'dang/parser'
 
 class Dang
-  VERSION  = '1.0.0'
-  CODENAME = 'Zoe'
+  VERSION  = '2.0.0'
+  CODENAME = 'Abigail'
 
   @filters = {}
 
