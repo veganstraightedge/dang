@@ -1,0 +1,31 @@
+PATH
+  remote: .
+  specs:
+    dang (1.0.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    hoe (3.13.0)
+      rake (>= 0.8, < 11.0)
+    hoe-doofus (1.0.0)
+    hoe-git (1.6.0)
+    json (1.8.1)
+    kpeg (1.0.0)
+    minitest (5.4.3)
+    rake (10.3.2)
+    rdoc (3.12.2)
+      json (~> 1.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  dang!
+  hoe
+  hoe-doofus
+  hoe-git
+  kpeg
+  minitest
+  rake
+  rdoc (~> 3.10)

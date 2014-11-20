@@ -6,4 +6,3 @@ tmp/
 .DS_Store
 *.dat
 pkg
-Gemfile.lock
