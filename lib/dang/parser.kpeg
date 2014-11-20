@@ -170,7 +170,7 @@ doctype = "!!!" space* rest:r { @doctype = r.empty? ? "html" : r }
   chunk = < (!marker .)* > { text }
 
 rclose = ":>"
-  ruby = "<:" < (!rclose .)* > rclose { code(text, false) }
+  ruby = "<:" bs+ < (!rclose .)* > rclose { code(text, false) }
 
 pclose = "|>"
   puby = "<|" < (!pclose .)* > pclose { code(text) }

@@ -958,7 +958,7 @@ class Dang::Parser
     return _tmp
   end
 
-  # ruby = "<:" < (!rclose .)* > rclose { code(text, false) }
+  # ruby = "<:" bs+ < (!rclose .)* > rclose { code(text, false) }
   def _ruby
 
     _save = self.pos
@@ -968,22 +968,37 @@ class Dang::Parser
         self.pos = _save
         break
       end
+      _save1 = self.pos
+      _tmp = apply(:_bs)
+      if _tmp
+        while true
+          _tmp = apply(:_bs)
+          break unless _tmp
+        end
+        _tmp = true
+      else
+        self.pos = _save1
+      end
+      unless _tmp
+        self.pos = _save
+        break
+      end
       _text_start = self.pos
       while true
 
-        _save2 = self.pos
+        _save3 = self.pos
         while true # sequence
-          _save3 = self.pos
+          _save4 = self.pos
           _tmp = apply(:_rclose)
           _tmp = _tmp ? nil : true
-          self.pos = _save3
+          self.pos = _save4
           unless _tmp
-            self.pos = _save2
+            self.pos = _save3
             break
           end
           _tmp = get_byte
           unless _tmp
-            self.pos = _save2
+            self.pos = _save3
           end
           break
         end # end sequence
@@ -2650,7 +2665,7 @@ class Dang::Parser
   Rules[:_marker] = rule_info("marker", "(start | \"<!\" | \"<|\" | \"<:\" | - end)")
   Rules[:_chunk] = rule_info("chunk", "< (!marker .)* > { text }")
   Rules[:_rclose] = rule_info("rclose", "\":>\"")
-  Rules[:_ruby] = rule_info("ruby", "\"<:\" < (!rclose .)* > rclose { code(text, false) }")
+  Rules[:_ruby] = rule_info("ruby", "\"<:\" bs+ < (!rclose .)* > rclose { code(text, false) }")
   Rules[:_pclose] = rule_info("pclose", "\"|>\"")
   Rules[:_puby] = rule_info("puby", "\"<|\" < (!pclose .)* > pclose { code(text) }")
   Rules[:_part] = rule_info("part", "(ruby | puby | filter | comment | tag | chunk)")
