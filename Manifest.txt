@@ -29,11 +29,11 @@ spectory/script_spec.rb
 spectory/selector_spec.rb
 spectory/style_spec.rb
 spectory/tag_spec.rb
-spectory/v2/array_classes_spec.rb
-spectory/v2/filters/markdown_spec.rb
-spectory/v2/hash_attribute_spec.rb
-spectory/v2/interpolation_spec.rb
-spectory/v2/script_exception_spec.rb
-spectory/v2/style_exception_spec.rb
+spectory/experiments/array_classes_spec.rb
+spectory/experiments/filters/markdown_spec.rb
+spectory/experiments/hash_attribute_spec.rb
+spectory/experiments/interpolation_spec.rb
+spectory/experiments/script_exception_spec.rb
+spectory/experiments/style_exception_spec.rb
 spectory/well_formedness_spec.rb
 spectory/whitespace_spec.rb
