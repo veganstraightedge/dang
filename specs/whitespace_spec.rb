@@ -1,4 +1,4 @@
-require "spectory/helper"
+require "specs/helper"
 
 # something like HAML's aligator operator
 # http://haml-lang.com/docs/yardoc/file.HAML_REFERENCE.html#whitespace_removal__and_

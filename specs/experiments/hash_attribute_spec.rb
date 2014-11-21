@@ -1,4 +1,4 @@
-require "spectory/helper"
+require "specs/helper"
 
 # TODO experimental
 # for v2
@@ -12,7 +12,7 @@ require "spectory/helper"
 #     # <body[foo=#{bar}]{attrs, attrs}
 #     # <body{ hidden }
 #     # <body#id.class.class2{ attrs }
-#     # <body#id.class.class2<= attrs =>
+#     # <body#id.class.class2<| attrs |>
 # 
 #     # TODO experimental
 # 

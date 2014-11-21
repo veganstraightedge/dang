@@ -1,4 +1,4 @@
-require "spectory/helper"
+require "specs/helper"
 
 # describe "script tags" do
 #   it "skips js that looks like a closing dang tag" do

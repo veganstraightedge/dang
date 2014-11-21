@@ -1,4 +1,4 @@
-require "spectory/helper"
+require "specs/helper"
 
 describe "data attributes" do
   it "transforms normal data attributes comments" do

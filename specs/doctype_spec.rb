@@ -1,4 +1,4 @@
-require "spectory/helper"
+require "specs/helper"
 
 describe "doctypes" do
   # based largely on HAML's doctype with a minor variation

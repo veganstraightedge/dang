@@ -1,4 +1,4 @@
-require "spectory/helper"
+require "specs/helper"
 
 describe "selectors" do
   it "transforms Dang tag#id into HTML tag with an id attribute" do

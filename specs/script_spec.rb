@@ -1,4 +1,4 @@
-require "spectory/helper"
+require "specs/helper"
 
 describe "script tags" do
   it "treats script tag special" do

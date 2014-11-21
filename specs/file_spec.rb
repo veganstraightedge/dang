@@ -1,4 +1,4 @@
-require "spectory/helper"
+require "specs/helper"
 
 describe "files" do
   it "can transform a whole document" do

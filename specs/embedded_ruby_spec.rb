@@ -1,4 +1,4 @@
-require "spectory/helper"
+require "specs/helper"
 
 describe "embedded ruby" do
   it "farms out to Ruby for and does not return any output" do

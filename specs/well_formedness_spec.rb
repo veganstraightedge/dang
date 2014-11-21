@@ -1,4 +1,4 @@
-require "spectory/helper"
+require "specs/helper"
 
 # TODO experimental
 

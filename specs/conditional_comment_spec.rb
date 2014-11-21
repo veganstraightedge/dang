@@ -1,4 +1,4 @@
-require "spectory/helper"
+require "specs/helper"
 
 # from
 # <! [if IE] !>

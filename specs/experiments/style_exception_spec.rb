@@ -1,4 +1,4 @@
-require "spectory/helper"
+require "specs/helper"
 
 # describe "style tags" do
 #   it "skips css that looks like a closing dang tag" do

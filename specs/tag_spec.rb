@@ -1,4 +1,4 @@
-require "spectory/helper"
+require "specs/helper"
 
 describe "tags" do
   it "transforms Dang tag to HTML tag with no content" do

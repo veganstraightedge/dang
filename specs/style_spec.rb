@@ -1,4 +1,4 @@
-require "spectory/helper"
+require "specs/helper"
 
 describe "style tags" do
   it "treats style tags special" do
