@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    dang (1.0.0)
+    dang (2.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -14,7 +14,7 @@ GEM
     kpeg (1.0.0)
     minitest (5.4.3)
     rake (10.3.2)
-    rdoc (3.12.2)
+    rdoc (4.1.2)
       json (~> 1.4)
 
 PLATFORMS
@@ -28,4 +28,4 @@ DEPENDENCIES
   kpeg
   minitest
   rake
-  rdoc (~> 3.10)
+  rdoc (~> 4.0)
