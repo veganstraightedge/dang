@@ -5,7 +5,8 @@ describe "interpolation" do
   # it "should allow ruby interpolation in classes"
 
   it "should interpolate in attributes" do
-    Dang.it("<time[datetime=<| Time.now.year |>-<| Time.now.month |>-<| Time.now.min |>] <| Time.now |> time>").must_equal
-            "<time datetime=''>#{Time.now}</time>"
+    foo = "bar"
+
+    Dang.it("<time[name=<| foo |>-<| foo |>] <| foo |> time>", binding).must_equal "<time name='bar-bar'>bar</time>"
   end
 end
