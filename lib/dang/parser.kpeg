@@ -80,21 +80,47 @@
     out = []
     classes = []
 
-    (at+sel).each do |key,val|
+    (at+sel).flatten.each do |pair|
+      key = pair.key
+      val = pair.value
+
       if key == "class"
+        val = val.str if val.kind_of? Literal
         classes.unshift val
       elsif val == true
         out << "#{key}"
+        out << " "
       else
-        out << "#{key}='#{val}'"
+        out << "#{key}='"
+        out << val
+        out << "'"
+        out << " "
       end
     end
 
     unless classes.empty?
-      out.unshift "class='#{classes.join(' ')}'"
+      expanded = ["class='"]
+      classes.each do |c|
+        expanded << c
+        expanded << " "
+      end
+
+      expanded[-1] = "'"
+
+      classes = expanded
+
+      if out.empty?
+        return classes
+      end
+
+      out = classes + [" "] + out
     end
 
-    out.join(' ')
+    if out.last == " "
+      out.pop
+    end
+
+    out
   end
 
   class Literal
@@ -124,7 +150,7 @@
   end
 
   def joinm(*elems)
-    elems.map do |i|
+    elems.flatten.map do |i|
       if i.kind_of? String
         Literal.new(i)
       else
@@ -132,6 +158,8 @@
       end
     end
   end
+
+  Pair = Struct.new(:key, :value)
 
   def join(f,b)
     f = Literal.new(f) if f.kind_of? String
@@ -182,16 +210,22 @@ pclose = "|>"
     key = name
         | "'" < /[^'\n]*/ > "'" { text }
 
+ valsrt = "]" | "<|"
+ valchk = < (!valsrt .)* > { text }
+ valprt = puby | valchk
+ valraw = valprt:p valraw:b { join(p,b) }
+        | valprt
+
     val = "'" < /[^'\n]*/ > "'" { text }
-        | < (!"]" .)* > { text }
+        | valraw
 
-  dattr = "[" key:k "=" val:v "]" { "data-#{k}='#{v}'" }
- dattrs = dattr:a dattrs:l { "#{a} #{l}" }
-        | dattr
+  dattr = "[" key:k "=" val:v "]" { Pair.new("data-#{k}", v) }
+ dattrs = dattr:a dattrs:l { [a] + l }
+        | dattr:a { [a] }
 
-   attr = "[data" dattrs:t "]" { [t,true] }
-        | "[" key:k "=" val:v "]" { [k, v] }
-        | "[" key:k "]" { [k,true] }
+   attr = "[data" dattrs:t "]" { t }
+        | "[" key:k "=" val:v "]" { Pair.new(k, v) }
+        | "[" key:k "]" { Pair.new(k,true) }
   attrs = attr:a attrs:l { [a] + l }
         | attr:a { [a] }
 
@@ -205,8 +239,8 @@ comment = "<!" space+ < "[" space* cc_if (!"]" .)* "]" > space+ "!>"
           { "<!--#{text}-->" }
 
  simple = /[a-zA-Z0-9_\-]+/
- select = "#" < simple > { ["id", text] }
-        | "." < simple > { ["class", text] }
+ select = "#" < simple > { Pair.new("id", text) }
+        | "." < simple > { Pair.new("class", text) }
 
 selects = select:s selects:t { [s] + t }
         | select:s { [s] }
@@ -219,23 +253,23 @@ filter = "<:" name:n bs* < (!end_filter(n) .)* > end_filter(n)
     tag = start:l slash { "<#{l} />" }
         | start:l space+ end:r { "<#{l}></#{r}>" }
         | start:l attrs:a slash
-          { "<#{l} #{attrs(a)} />" }
+          { joinm "<#{l} ", attrs(a), " />" }
         | start:l selects:t slash
-          { "<#{l} #{attrs(t)} />" }
+          { joinm "<#{l} ",  attrs(t), " />" }
         | start:l selects:t attrs:a slash
-          { "<#{l} #{attrs(t,a)} />" }
+          { joinm "<#{l} ", attrs(t,a), " />" }
         | start:l attrs:a space+ end:r
-          { "<#{l} #{attrs(a)}></#{r}>" }
+          { joinm "<#{l} ", attrs(a), "></#{r}>" }
         | start:l selects:t space+ end:r
-          { "<#{l} #{attrs(t)}></#{r}>" }
+          { joinm "<#{l} ", attrs(t), "></#{r}>" }
         | start:l selects:t attrs:a space+ end:r
-          { "<#{l} #{attrs(t,a)}></#{r}>" }
+          { joinm "<#{l} ", attrs(t,a), "></#{r}>" }
         | start:l selects:t attrs:a pts body:b pts:es end:r
-          { joinm "<#{l} #{attrs(a,t)}>",b,es,"</#{r}>" }
+          { joinm "<#{l} ", attrs(a,t), ">",b,es,"</#{r}>" }
         | start:l attrs:a pts body:b pts:es end:r
-          { joinm "<#{l} #{attrs(a)}>", b, es, "</#{r}>" }
+          { joinm "<#{l} ", attrs(a), ">", b, es, "</#{r}>" }
         | start:l selects:t pts:s body:b pts:es end:r
-          { joinm "<#{l} #{attrs(t)}>",s, b, es, "</#{r}>" }
+          { joinm "<#{l} ", attrs(t), ">",s, b, es, "</#{r}>" }
         | start:l pts:s body:b pts:es end:r
           { joinm "<#{l}>", s, b, es, "</#{r}>" }
 

@@ -435,21 +435,47 @@ class Dang::Parser
     out = []
     classes = []
 
-    (at+sel).each do |key,val|
+    (at+sel).flatten.each do |pair|
+      key = pair.key
+      val = pair.value
+
       if key == "class"
+        val = val.str if val.kind_of? Literal
         classes.unshift val
       elsif val == true
         out << "#{key}"
+        out << " "
       else
-        out << "#{key}='#{val}'"
+        out << "#{key}='"
+        out << val
+        out << "'"
+        out << " "
       end
     end
 
     unless classes.empty?
-      out.unshift "class='#{classes.join(' ')}'"
+      expanded = ["class='"]
+      classes.each do |c|
+        expanded << c
+        expanded << " "
+      end
+
+      expanded[-1] = "'"
+
+      classes = expanded
+
+      if out.empty?
+        return classes
+      end
+
+      out = classes + [" "] + out
     end
 
-    out.join(' ')
+    if out.last == " "
+      out.pop
+    end
+
+    out
   end
 
   class Literal
@@ -479,7 +505,7 @@ class Dang::Parser
   end
 
   def joinm(*elems)
-    elems.map do |i|
+    elems.flatten.map do |i|
       if i.kind_of? String
         Literal.new(i)
       else
@@ -487,6 +513,8 @@ class Dang::Parser
       end
     end
   end
+
+  Pair = Struct.new(:key, :value)
 
   def join(f,b)
     f = Literal.new(f) if f.kind_of? String
@@ -1211,7 +1239,130 @@ class Dang::Parser
     return _tmp
   end
 
-  # val = ("'" < /[^'\n]*/ > "'" { text } | < (!"]" .)* > { text })
+  # valsrt = ("]" | "<|")
+  def _valsrt
+
+    _save = self.pos
+    while true # choice
+      _tmp = match_string("]")
+      break if _tmp
+      self.pos = _save
+      _tmp = match_string("<|")
+      break if _tmp
+      self.pos = _save
+      break
+    end # end choice
+
+    set_failed_rule :_valsrt unless _tmp
+    return _tmp
+  end
+
+  # valchk = < (!valsrt .)* > { text }
+  def _valchk
+
+    _save = self.pos
+    while true # sequence
+      _text_start = self.pos
+      while true
+
+        _save2 = self.pos
+        while true # sequence
+          _save3 = self.pos
+          _tmp = apply(:_valsrt)
+          _tmp = _tmp ? nil : true
+          self.pos = _save3
+          unless _tmp
+            self.pos = _save2
+            break
+          end
+          _tmp = get_byte
+          unless _tmp
+            self.pos = _save2
+          end
+          break
+        end # end sequence
+
+        break unless _tmp
+      end
+      _tmp = true
+      if _tmp
+        text = get_text(_text_start)
+      end
+      unless _tmp
+        self.pos = _save
+        break
+      end
+      @result = begin;  text ; end
+      _tmp = true
+      unless _tmp
+        self.pos = _save
+      end
+      break
+    end # end sequence
+
+    set_failed_rule :_valchk unless _tmp
+    return _tmp
+  end
+
+  # valprt = (puby | valchk)
+  def _valprt
+
+    _save = self.pos
+    while true # choice
+      _tmp = apply(:_puby)
+      break if _tmp
+      self.pos = _save
+      _tmp = apply(:_valchk)
+      break if _tmp
+      self.pos = _save
+      break
+    end # end choice
+
+    set_failed_rule :_valprt unless _tmp
+    return _tmp
+  end
+
+  # valraw = (valprt:p valraw:b { join(p,b) } | valprt)
+  def _valraw
+
+    _save = self.pos
+    while true # choice
+
+      _save1 = self.pos
+      while true # sequence
+        _tmp = apply(:_valprt)
+        p = @result
+        unless _tmp
+          self.pos = _save1
+          break
+        end
+        _tmp = apply(:_valraw)
+        b = @result
+        unless _tmp
+          self.pos = _save1
+          break
+        end
+        @result = begin;  join(p,b) ; end
+        _tmp = true
+        unless _tmp
+          self.pos = _save1
+        end
+        break
+      end # end sequence
+
+      break if _tmp
+      self.pos = _save
+      _tmp = apply(:_valprt)
+      break if _tmp
+      self.pos = _save
+      break
+    end # end choice
+
+    set_failed_rule :_valraw unless _tmp
+    return _tmp
+  end
+
+  # val = ("'" < /[^'\n]*/ > "'" { text } | valraw)
   def _val
 
     _save = self.pos
@@ -1248,47 +1399,7 @@ class Dang::Parser
 
       break if _tmp
       self.pos = _save
-
-      _save2 = self.pos
-      while true # sequence
-        _text_start = self.pos
-        while true
-
-          _save4 = self.pos
-          while true # sequence
-            _save5 = self.pos
-            _tmp = match_string("]")
-            _tmp = _tmp ? nil : true
-            self.pos = _save5
-            unless _tmp
-              self.pos = _save4
-              break
-            end
-            _tmp = get_byte
-            unless _tmp
-              self.pos = _save4
-            end
-            break
-          end # end sequence
-
-          break unless _tmp
-        end
-        _tmp = true
-        if _tmp
-          text = get_text(_text_start)
-        end
-        unless _tmp
-          self.pos = _save2
-          break
-        end
-        @result = begin;  text ; end
-        _tmp = true
-        unless _tmp
-          self.pos = _save2
-        end
-        break
-      end # end sequence
-
+      _tmp = apply(:_valraw)
       break if _tmp
       self.pos = _save
       break
@@ -1298,7 +1409,7 @@ class Dang::Parser
     return _tmp
   end
 
-  # dattr = "[" key:k "=" val:v "]" { "data-#{k}='#{v}'" }
+  # dattr = "[" key:k "=" val:v "]" { Pair.new("data-#{k}", v) }
   def _dattr
 
     _save = self.pos
@@ -1330,7 +1441,7 @@ class Dang::Parser
         self.pos = _save
         break
       end
-      @result = begin;  "data-#{k}='#{v}'" ; end
+      @result = begin;  Pair.new("data-#{k}", v) ; end
       _tmp = true
       unless _tmp
         self.pos = _save
@@ -1342,7 +1453,7 @@ class Dang::Parser
     return _tmp
   end
 
-  # dattrs = (dattr:a dattrs:l { "#{a} #{l}" } | dattr)
+  # dattrs = (dattr:a dattrs:l { [a] + l } | dattr:a { [a] })
   def _dattrs
 
     _save = self.pos
@@ -1362,7 +1473,7 @@ class Dang::Parser
           self.pos = _save1
           break
         end
-        @result = begin;  "#{a} #{l}" ; end
+        @result = begin;  [a] + l ; end
         _tmp = true
         unless _tmp
           self.pos = _save1
@@ -1372,7 +1483,23 @@ class Dang::Parser
 
       break if _tmp
       self.pos = _save
-      _tmp = apply(:_dattr)
+
+      _save2 = self.pos
+      while true # sequence
+        _tmp = apply(:_dattr)
+        a = @result
+        unless _tmp
+          self.pos = _save2
+          break
+        end
+        @result = begin;  [a] ; end
+        _tmp = true
+        unless _tmp
+          self.pos = _save2
+        end
+        break
+      end # end sequence
+
       break if _tmp
       self.pos = _save
       break
@@ -1382,7 +1509,7 @@ class Dang::Parser
     return _tmp
   end
 
-  # attr = ("[data" dattrs:t "]" { [t,true] } | "[" key:k "=" val:v "]" { [k, v] } | "[" key:k "]" { [k,true] })
+  # attr = ("[data" dattrs:t "]" { t } | "[" key:k "=" val:v "]" { Pair.new(k, v) } | "[" key:k "]" { Pair.new(k,true) })
   def _attr
 
     _save = self.pos
@@ -1406,7 +1533,7 @@ class Dang::Parser
           self.pos = _save1
           break
         end
-        @result = begin;  [t,true] ; end
+        @result = begin;  t ; end
         _tmp = true
         unless _tmp
           self.pos = _save1
@@ -1446,7 +1573,7 @@ class Dang::Parser
           self.pos = _save2
           break
         end
-        @result = begin;  [k, v] ; end
+        @result = begin;  Pair.new(k, v) ; end
         _tmp = true
         unless _tmp
           self.pos = _save2
@@ -1475,7 +1602,7 @@ class Dang::Parser
           self.pos = _save3
           break
         end
-        @result = begin;  [k,true] ; end
+        @result = begin;  Pair.new(k,true) ; end
         _tmp = true
         unless _tmp
           self.pos = _save3
@@ -1866,7 +1993,7 @@ class Dang::Parser
     return _tmp
   end
 
-  # select = ("#" < simple > { ["id", text] } | "." < simple > { ["class", text] })
+  # select = ("#" < simple > { Pair.new("id", text) } | "." < simple > { Pair.new("class", text) })
   def _select
 
     _save = self.pos
@@ -1888,7 +2015,7 @@ class Dang::Parser
           self.pos = _save1
           break
         end
-        @result = begin;  ["id", text] ; end
+        @result = begin;  Pair.new("id", text) ; end
         _tmp = true
         unless _tmp
           self.pos = _save1
@@ -1915,7 +2042,7 @@ class Dang::Parser
           self.pos = _save2
           break
         end
-        @result = begin;  ["class", text] ; end
+        @result = begin;  Pair.new("class", text) ; end
         _tmp = true
         unless _tmp
           self.pos = _save2
@@ -2101,7 +2228,7 @@ class Dang::Parser
     return _tmp
   end
 
-  # tag = (start:l slash { "<#{l} />" } | start:l space+ end:r { "<#{l}></#{r}>" } | start:l attrs:a slash { "<#{l} #{attrs(a)} />" } | start:l selects:t slash { "<#{l} #{attrs(t)} />" } | start:l selects:t attrs:a slash { "<#{l} #{attrs(t,a)} />" } | start:l attrs:a space+ end:r { "<#{l} #{attrs(a)}></#{r}>" } | start:l selects:t space+ end:r { "<#{l} #{attrs(t)}></#{r}>" } | start:l selects:t attrs:a space+ end:r { "<#{l} #{attrs(t,a)}></#{r}>" } | start:l selects:t attrs:a pts body:b pts:es end:r { joinm "<#{l} #{attrs(a,t)}>",b,es,"</#{r}>" } | start:l attrs:a pts body:b pts:es end:r { joinm "<#{l} #{attrs(a)}>", b, es, "</#{r}>" } | start:l selects:t pts:s body:b pts:es end:r { joinm "<#{l} #{attrs(t)}>",s, b, es, "</#{r}>" } | start:l pts:s body:b pts:es end:r { joinm "<#{l}>", s, b, es, "</#{r}>" })
+  # tag = (start:l slash { "<#{l} />" } | start:l space+ end:r { "<#{l}></#{r}>" } | start:l attrs:a slash { joinm "<#{l} ", attrs(a), " />" } | start:l selects:t slash { joinm "<#{l} ",  attrs(t), " />" } | start:l selects:t attrs:a slash { joinm "<#{l} ", attrs(t,a), " />" } | start:l attrs:a space+ end:r { joinm "<#{l} ", attrs(a), "></#{r}>" } | start:l selects:t space+ end:r { joinm "<#{l} ", attrs(t), "></#{r}>" } | start:l selects:t attrs:a space+ end:r { joinm "<#{l} ", attrs(t,a), "></#{r}>" } | start:l selects:t attrs:a pts body:b pts:es end:r { joinm "<#{l} ", attrs(a,t), ">",b,es,"</#{r}>" } | start:l attrs:a pts body:b pts:es end:r { joinm "<#{l} ", attrs(a), ">", b, es, "</#{r}>" } | start:l selects:t pts:s body:b pts:es end:r { joinm "<#{l} ", attrs(t), ">",s, b, es, "</#{r}>" } | start:l pts:s body:b pts:es end:r { joinm "<#{l}>", s, b, es, "</#{r}>" })
   def _tag
 
     _save = self.pos
@@ -2190,7 +2317,7 @@ class Dang::Parser
           self.pos = _save4
           break
         end
-        @result = begin;  "<#{l} #{attrs(a)} />" ; end
+        @result = begin;  joinm "<#{l} ", attrs(a), " />" ; end
         _tmp = true
         unless _tmp
           self.pos = _save4
@@ -2220,7 +2347,7 @@ class Dang::Parser
           self.pos = _save5
           break
         end
-        @result = begin;  "<#{l} #{attrs(t)} />" ; end
+        @result = begin;  joinm "<#{l} ",  attrs(t), " />" ; end
         _tmp = true
         unless _tmp
           self.pos = _save5
@@ -2256,7 +2383,7 @@ class Dang::Parser
           self.pos = _save6
           break
         end
-        @result = begin;  "<#{l} #{attrs(t,a)} />" ; end
+        @result = begin;  joinm "<#{l} ", attrs(t,a), " />" ; end
         _tmp = true
         unless _tmp
           self.pos = _save6
@@ -2302,7 +2429,7 @@ class Dang::Parser
           self.pos = _save7
           break
         end
-        @result = begin;  "<#{l} #{attrs(a)}></#{r}>" ; end
+        @result = begin;  joinm "<#{l} ", attrs(a), "></#{r}>" ; end
         _tmp = true
         unless _tmp
           self.pos = _save7
@@ -2348,7 +2475,7 @@ class Dang::Parser
           self.pos = _save9
           break
         end
-        @result = begin;  "<#{l} #{attrs(t)}></#{r}>" ; end
+        @result = begin;  joinm "<#{l} ", attrs(t), "></#{r}>" ; end
         _tmp = true
         unless _tmp
           self.pos = _save9
@@ -2400,7 +2527,7 @@ class Dang::Parser
           self.pos = _save11
           break
         end
-        @result = begin;  "<#{l} #{attrs(t,a)}></#{r}>" ; end
+        @result = begin;  joinm "<#{l} ", attrs(t,a), "></#{r}>" ; end
         _tmp = true
         unless _tmp
           self.pos = _save11
@@ -2454,7 +2581,7 @@ class Dang::Parser
           self.pos = _save13
           break
         end
-        @result = begin;  joinm "<#{l} #{attrs(a,t)}>",b,es,"</#{r}>" ; end
+        @result = begin;  joinm "<#{l} ", attrs(a,t), ">",b,es,"</#{r}>" ; end
         _tmp = true
         unless _tmp
           self.pos = _save13
@@ -2502,7 +2629,7 @@ class Dang::Parser
           self.pos = _save14
           break
         end
-        @result = begin;  joinm "<#{l} #{attrs(a)}>", b, es, "</#{r}>" ; end
+        @result = begin;  joinm "<#{l} ", attrs(a), ">", b, es, "</#{r}>" ; end
         _tmp = true
         unless _tmp
           self.pos = _save14
@@ -2551,7 +2678,7 @@ class Dang::Parser
           self.pos = _save15
           break
         end
-        @result = begin;  joinm "<#{l} #{attrs(t)}>",s, b, es, "</#{r}>" ; end
+        @result = begin;  joinm "<#{l} ", attrs(t), ">",s, b, es, "</#{r}>" ; end
         _tmp = true
         unless _tmp
           self.pos = _save15
@@ -2671,20 +2798,24 @@ class Dang::Parser
   Rules[:_part] = rule_info("part", "(ruby | puby | filter | comment | tag | chunk)")
   Rules[:_body] = rule_info("body", "(part:p body:b { join(p,b) } | part)")
   Rules[:_key] = rule_info("key", "(name | \"'\" < /[^'\\n]*/ > \"'\" { text })")
-  Rules[:_val] = rule_info("val", "(\"'\" < /[^'\\n]*/ > \"'\" { text } | < (!\"]\" .)* > { text })")
-  Rules[:_dattr] = rule_info("dattr", "\"[\" key:k \"=\" val:v \"]\" { \"data-\#{k}='\#{v}'\" }")
-  Rules[:_dattrs] = rule_info("dattrs", "(dattr:a dattrs:l { \"\#{a} \#{l}\" } | dattr)")
-  Rules[:_attr] = rule_info("attr", "(\"[data\" dattrs:t \"]\" { [t,true] } | \"[\" key:k \"=\" val:v \"]\" { [k, v] } | \"[\" key:k \"]\" { [k,true] })")
+  Rules[:_valsrt] = rule_info("valsrt", "(\"]\" | \"<|\")")
+  Rules[:_valchk] = rule_info("valchk", "< (!valsrt .)* > { text }")
+  Rules[:_valprt] = rule_info("valprt", "(puby | valchk)")
+  Rules[:_valraw] = rule_info("valraw", "(valprt:p valraw:b { join(p,b) } | valprt)")
+  Rules[:_val] = rule_info("val", "(\"'\" < /[^'\\n]*/ > \"'\" { text } | valraw)")
+  Rules[:_dattr] = rule_info("dattr", "\"[\" key:k \"=\" val:v \"]\" { Pair.new(\"data-\#{k}\", v) }")
+  Rules[:_dattrs] = rule_info("dattrs", "(dattr:a dattrs:l { [a] + l } | dattr:a { [a] })")
+  Rules[:_attr] = rule_info("attr", "(\"[data\" dattrs:t \"]\" { t } | \"[\" key:k \"=\" val:v \"]\" { Pair.new(k, v) } | \"[\" key:k \"]\" { Pair.new(k,true) })")
   Rules[:_attrs] = rule_info("attrs", "(attr:a attrs:l { [a] + l } | attr:a { [a] })")
   Rules[:_cc_if] = rule_info("cc_if", "/[iI][fF]/")
   Rules[:_cc_end] = rule_info("cc_end", "/[eE][nN][dD][iI][fF]/")
   Rules[:_comment] = rule_info("comment", "(\"<!\" space+ < \"[\" space* cc_if (!\"]\" .)* \"]\" > space+ \"!>\" { \"<!--\#{text}>\" } | \"<!\" space+ < \"[\" space* cc_end (!\"]\" .)* \"]\" > space+ \"!>\" { \"<!\#{text}-->\" } | \"<!\" < (!\"!>\" .)* > \"!>\" { \"<!--\#{text}-->\" })")
   Rules[:_simple] = rule_info("simple", "/[a-zA-Z0-9_\\-]+/")
-  Rules[:_select] = rule_info("select", "(\"\#\" < simple > { [\"id\", text] } | \".\" < simple > { [\"class\", text] })")
+  Rules[:_select] = rule_info("select", "(\"\#\" < simple > { Pair.new(\"id\", text) } | \".\" < simple > { Pair.new(\"class\", text) })")
   Rules[:_selects] = rule_info("selects", "(select:s selects:t { [s] + t } | select:s { [s] })")
   Rules[:_end_filter] = rule_info("end_filter", "bs* < /[a-zA-Z]+/ > &{ n == text } \":>\"")
   Rules[:_filter] = rule_info("filter", "\"<:\" name:n bs* < (!end_filter(n) .)* > end_filter(n) { Filter.new(n, text) }")
-  Rules[:_tag] = rule_info("tag", "(start:l slash { \"<\#{l} />\" } | start:l space+ end:r { \"<\#{l}></\#{r}>\" } | start:l attrs:a slash { \"<\#{l} \#{attrs(a)} />\" } | start:l selects:t slash { \"<\#{l} \#{attrs(t)} />\" } | start:l selects:t attrs:a slash { \"<\#{l} \#{attrs(t,a)} />\" } | start:l attrs:a space+ end:r { \"<\#{l} \#{attrs(a)}></\#{r}>\" } | start:l selects:t space+ end:r { \"<\#{l} \#{attrs(t)}></\#{r}>\" } | start:l selects:t attrs:a space+ end:r { \"<\#{l} \#{attrs(t,a)}></\#{r}>\" } | start:l selects:t attrs:a pts body:b pts:es end:r { joinm \"<\#{l} \#{attrs(a,t)}>\",b,es,\"</\#{r}>\" } | start:l attrs:a pts body:b pts:es end:r { joinm \"<\#{l} \#{attrs(a)}>\", b, es, \"</\#{r}>\" } | start:l selects:t pts:s body:b pts:es end:r { joinm \"<\#{l} \#{attrs(t)}>\",s, b, es, \"</\#{r}>\" } | start:l pts:s body:b pts:es end:r { joinm \"<\#{l}>\", s, b, es, \"</\#{r}>\" })")
+  Rules[:_tag] = rule_info("tag", "(start:l slash { \"<\#{l} />\" } | start:l space+ end:r { \"<\#{l}></\#{r}>\" } | start:l attrs:a slash { joinm \"<\#{l} \", attrs(a), \" />\" } | start:l selects:t slash { joinm \"<\#{l} \",  attrs(t), \" />\" } | start:l selects:t attrs:a slash { joinm \"<\#{l} \", attrs(t,a), \" />\" } | start:l attrs:a space+ end:r { joinm \"<\#{l} \", attrs(a), \"></\#{r}>\" } | start:l selects:t space+ end:r { joinm \"<\#{l} \", attrs(t), \"></\#{r}>\" } | start:l selects:t attrs:a space+ end:r { joinm \"<\#{l} \", attrs(t,a), \"></\#{r}>\" } | start:l selects:t attrs:a pts body:b pts:es end:r { joinm \"<\#{l} \", attrs(a,t), \">\",b,es,\"</\#{r}>\" } | start:l attrs:a pts body:b pts:es end:r { joinm \"<\#{l} \", attrs(a), \">\", b, es, \"</\#{r}>\" } | start:l selects:t pts:s body:b pts:es end:r { joinm \"<\#{l} \", attrs(t), \">\",s, b, es, \"</\#{r}>\" } | start:l pts:s body:b pts:es end:r { joinm \"<\#{l}>\", s, b, es, \"</\#{r}>\" })")
   Rules[:_root] = rule_info("root", "doctype? body:b eof { @output = join(b,\"\") }")
   # :startdoc:
 end
