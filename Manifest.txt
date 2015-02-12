@@ -5,7 +5,6 @@ History.md
 Manifest.txt
 README.md
 Rakefile
-TODO.md
 bin/dang
 dang.gemspec
 lib/dang.rb
