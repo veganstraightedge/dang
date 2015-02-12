@@ -51,7 +51,7 @@ Or just a snippet of dang into html:
 
 ## Current Version
 
-2.0.0
+2.1.0
 
 
 ## Requirements
@@ -98,8 +98,8 @@ This will install any missing dependencies.
 
 ## Authors
 
-  * Shane Becker / [@veganstraightedge](https://github.com/veganstraightedge)
-  * Evan Phoenix / [@evanphx](https://github.com/evanphx)
+* Shane Becker / [@veganstraightedge](https://github.com/veganstraightedge)
+* Evan Phoenix / [@evanphx](https://github.com/evanphx)
 
 
 ## Contributing

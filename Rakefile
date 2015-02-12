@@ -32,9 +32,9 @@ task :spec do
   Minitest.autorun
 end
 
-file "#{HOE.spec.name}.gemspec" => ['Rakefile', "lib/dang/dang.rb"] do |t|
+file "#{HOE.spec.name}.gemspec" => ["Rakefile", "lib/dang/dang.rb"] do |t|
   puts "Generating #{t.name}"
-  File.open(t.name, 'wb') { |f| f.write HOE.spec.to_ruby }
+  File.open(t.name, "wb") { |f| f.write HOE.spec.to_ruby }
 end
 
 desc "Generate or update the standalone gemspec file for the project"

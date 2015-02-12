@@ -1,5 +1,15 @@
 # History
 
+## 2.1.0 / 2015-02-11
+
+### Minor Feature
+
+1. Added interpolation in tag attributes
+
+   ```dang
+   <time[datetime=<| Time.now.strftime(%Y-%m-%d) |>] <| Time.now |> time>
+   ```
+
 ## 2.0.0 / 2014-11-20
 
 ### Major Features

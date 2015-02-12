@@ -1,10 +1,10 @@
-require 'stringio'
-require 'rubygems'
-require 'dang/parser'
+require "stringio"
+require "rubygems"
+require "dang/parser"
 
 class Dang
-  VERSION  = '2.0.0'
-  CODENAME = 'Abigail'
+  VERSION  = "2.1.0"
+  CODENAME = "Kira"
 
   @filters = {}
 
@@ -28,7 +28,7 @@ class Dang
       if filter = @filters[name]
         return filter[text]
       else
-        raise "Unknown filter: \"#{name}\""
+        raise "Unknown filter: '#{name}'"
       end
     end
   end
