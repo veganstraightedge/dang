@@ -4,7 +4,6 @@ require 'dang'
 require 'optparse'
 
 to_eval = nil
-path    = nil
 
 opt = OptionParser.new do |o|
   o.banner = "Usage: dang [options] [input.dang] [output.html]"
