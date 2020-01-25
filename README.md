@@ -2,7 +2,6 @@
 
 https://github.com/veganstraightedge/dang
 
-
 ## Description
 
 Dang is a Ruby templating language.
